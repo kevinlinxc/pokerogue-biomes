@@ -189,7 +189,7 @@ export default function BiomeRouteFinder() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900">
       <div className="container max-w-2xl mx-auto p-8 bg-black bg-opacity-30 backdrop-blur-lg rounded-xl shadow-lg">
-        <h1 className="text-3xl font-bold mb-6 text-center text-white">Pokerogue Biome Route Finder</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center text-white">PokéRogue Biome Path Finder</h1>
         <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
           <div className="w-full sm:w-[200px]">
             <BiomeDropdown

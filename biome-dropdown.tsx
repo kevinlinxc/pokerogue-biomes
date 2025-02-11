@@ -1,58 +1,66 @@
-"use client"
-
-import { useState } from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Fragment } from 'react'
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 interface BiomeDropdownProps {
   biomes: string[]
   value: string | null
-  onChange: (value: string | null) => void
+  onChange: (value: string) => void
   placeholder: string
 }
 
 export function BiomeDropdown({ biomes, value, onChange, placeholder }: BiomeDropdownProps) {
-  const [open, setOpen] = useState(false)
-
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full sm:w-[200px] justify-between bg-emerald-600 hover:bg-emerald-700 text-white border-none pr-3"
+    <Listbox value={value} onChange={onChange}>
+      <div className="relative">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 
+                                 text-left border border-slate-200 hover:border-slate-300
+                                 focus:outline-none focus-visible:ring-2 
+                                 focus-visible:ring-slate-500 focus-visible:ring-opacity-75">
+          <span className="block truncate text-slate-700">
+            {value || placeholder}
+          </span>
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <ChevronUpDownIcon className="h-5 w-5 text-slate-400" aria-hidden="true" />
+          </span>
+        </Listbox.Button>
+        <Transition
+          as={Fragment}
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
         >
-          <span className="truncate">{value || placeholder}</span>
-          <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full sm:w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search biome..." className="h-9" />
-          <CommandList>
-            <CommandEmpty>No biome found.</CommandEmpty>
-            <CommandGroup>
-              {biomes.map((biome) => (
-                <CommandItem
-                  key={biome}
-                  onSelect={() => {
-                    onChange(biome === value ? null : biome)
-                    setOpen(false)
-                  }}
-                >
-                  <Check className={cn("mr-2 h-4 w-4", value === biome ? "opacity-100" : "opacity-0")} />
-                  {biome}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+          <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto 
+                                    rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 
+                                    focus:outline-none">
+            {biomes.map((biome) => (
+              <Listbox.Option
+                key={biome}
+                value={biome}
+                className={({ active }) =>
+                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                    active ? 'bg-slate-100 text-slate-900' : 'text-slate-700'
+                  }`
+                }
+              >
+                {({ selected }) => (
+                  <>
+                    <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
+                      {biome}
+                    </span>
+                    {selected ? (
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-600">
+                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                    ) : null}
+                  </>
+                )}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Transition>
+      </div>
+    </Listbox>
   )
 }
 

@@ -6,30 +6,36 @@ interface RouteListProps {
 
 export function RouteList({ routes }: RouteListProps) {
   if (routes.length === 0) {
-    return <div className="text-gray-400 text-center">Select biomes to find routes</div>;
+    return (
+      <div className="h-full flex items-center justify-center">
+        <p className="text-slate-400">Select biomes to find routes</p>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-8">
       {routes.map((route, routeIndex) => (
-        <div key={routeIndex} className="relative bg-white/5 p-4 rounded-xl">
-          <div className="space-y-2">
+        <div key={routeIndex} className="relative bg-white/50 p-6 rounded-xl shadow-sm">
+          <div className="flex flex-wrap gap-2 items-center">
             {route.path.map((biome, nodeIndex) => (
-              <div key={nodeIndex} className="relative">
+              <div key={nodeIndex} className="flex items-center">
                 {/* Biome node */}
-                <div className="bg-white/10 backdrop-blur-sm p-3 rounded-lg 
-                              shadow-lg border border-white/20 
-                              transition-colors hover:bg-white/20">
-                  <span className="text-white font-medium">{biome}</span>
+                <div className="bg-white shadow-md px-4 py-2 rounded-lg 
+                              border border-slate-200
+                              transition-colors hover:bg-slate-50">
+                  <span className="text-slate-700 font-medium whitespace-nowrap">{biome}</span>
                 </div>
                 
-                {/* Arrow and probability indicator */}
+                {/* Arrow and probability */}
                 {nodeIndex < route.path.length - 1 && (
-                  <div className="flex items-center my-1 pl-4">
-                    <div className="h-8 w-0.5 bg-white/20"></div>
-                    <div className="ml-2 text-sm text-white/60">
-                      <span className="px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm">
-                        {(route.probabilities[nodeIndex] * 100).toFixed(0)}% chance
+                  <div className="flex items-center mx-2">
+                    <div className="flex items-center gap-1">
+                      <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                      <span className="text-sm text-slate-500 whitespace-nowrap">
+                        {(route.probabilities[nodeIndex] * 100).toFixed(0)}%
                       </span>
                     </div>
                   </div>
@@ -38,12 +44,12 @@ export function RouteList({ routes }: RouteListProps) {
             ))}
           </div>
           
-          {/* Route number indicator */}
-          <div className="absolute -left-4 -top-4 w-8 h-8 
-                        bg-white/10 backdrop-blur-sm rounded-full 
+          {/* Route number */}
+          <div className="absolute -left-3 -top-3 w-8 h-8 
+                        bg-white shadow-md rounded-full 
                         flex items-center justify-center 
-                        border border-white/20">
-            <span className="text-white/80 text-sm font-medium">
+                        border border-slate-200">
+            <span className="text-slate-600 text-sm font-medium">
               {routeIndex + 1}
             </span>
           </div>

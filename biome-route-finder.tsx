@@ -187,11 +187,13 @@ export default function BiomeRouteFinder() {
   }, [sourceBiome, destinationBiome])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900">
-      <div className="container max-w-2xl mx-auto p-8 bg-black bg-opacity-30 backdrop-blur-lg rounded-xl shadow-lg">
-        <h1 className="text-3xl font-bold mb-6 text-center text-white">PokéRogue Biome Path Finder</h1>
-        <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
-          <div className="w-full sm:w-[200px]">
+    <div className="min-h-screen flex bg-gradient-to-br from-rose-50 via-sky-50 to-indigo-100">
+      {/* Left Sidebar */}
+      <div className="w-80 bg-white/70 backdrop-blur-sm p-6 border-r border-slate-200 shadow-lg">
+        <h1 className="text-2xl font-bold mb-8 text-slate-800">PokéRogue Path Finder</h1>
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <p className="text-slate-600">I want to go from</p>
             <BiomeDropdown
               biomes={biomes}
               value={sourceBiome}
@@ -199,7 +201,8 @@ export default function BiomeRouteFinder() {
               placeholder="Select start biome"
             />
           </div>
-          <div className="w-full sm:w-[200px]">
+          <div className="space-y-2">
+            <p className="text-slate-600">to</p>
             <BiomeDropdown
               biomes={biomes}
               value={destinationBiome}
@@ -208,6 +211,10 @@ export default function BiomeRouteFinder() {
             />
           </div>
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 p-8 overflow-auto">
         <RouteList routes={routes} />
       </div>
     </div>

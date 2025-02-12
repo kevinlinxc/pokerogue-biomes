@@ -8,7 +8,6 @@ import ReactFlow, {
   useEdgesState,
   Handle,
 } from 'reactflow';
-import dagre from 'dagre';
 import 'reactflow/dist/style.css';
 import { adjacencyList, biomes } from './biome-data';
 import type { Route } from './biome-route-finder';
@@ -18,42 +17,45 @@ interface BiomeGraphProps {
   activeProbs: number[];
 }
 
-const nodeWidth = 30;
-const nodeHeight = 18;
+const nodeSpacingX = 130;
+const nodeSpacingY = 100;
 const BORDER_RADIUS = '0.25rem'; // Consistent border radius for both selection and image
 
-// Layout function using dagre
-const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: 'LR', ranker: "tight-tree" });
-
-  // Add nodes to dagre
-  nodes.forEach((node) => {
-    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
-  });
-
-  // Add edges to dagre
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
-
-  // Calculate layout
-  dagre.layout(dagreGraph);
-
-  // Get positions from layout
-  const layoutedNodes = nodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    return {
-      ...node,
-      position: {
-        x: nodeWithPosition.x - nodeWidth / 2,
-        y: nodeWithPosition.y - nodeHeight / 2,
-      },
-    };
-  });
-
-  return { nodes: layoutedNodes, edges };
+const nodePositions: { [key: string]: { x: number, y: number } } = {
+  "Abyss":            { x: 6, y: 2 },
+  "Ancient Ruins":    { x: 5, y: 7 },
+  "Badlands":         { x: 7, y: 1 },
+  "Beach":            { x: 8, y: 4 },
+  "Cave":             { x: 7, y: 3 },
+  "Construction Site":{ x: 2, y: 7 },
+  "Desert":           { x: 4, y: 7 },
+  "Dojo":             { x: 1, y: 8 },
+  "Factory":          { x: 2, y: 5 },
+  "Fairy Cave":       { x: 8, y: 6 },
+  "Forest":           { x: 3, y: 5 },
+  "Grassy Field":     { x: 1, y: 3 },
+  "Graveyard":        { x: 5, y: 2 },
+  "Ice Cave":         { x: 9, y: 6 },
+  "Island":           { x: 8, y: 3 },
+  "Jungle":           { x: 3, y: 8 },
+  "Laboratory":       { x: 2, y: 6 },
+  "Lake":             { x: 7, y: 4 },
+  "Meadow":           { x: 5, y: 5 },
+  "Metropolis":       { x: 0, y: 4 },
+  "Mountain":         { x: 11, y: 5 },
+  "Plains":           { x: 1, y: 4 },
+  "Power Plant":      { x: 1, y: 6 },
+  "Sea":              { x: 9, y: 3 },
+  "Seabed":           { x: 8, y: 2 },
+  "Slum":             { x: 0, y: 5 },
+  "Snowy Forest":     { x: 8, y: 5 },
+  "Space":            { x: 6, y: 7 },
+  "Swamp":            { x: 5, y: 3.5 },
+  "Tall Grass":       { x: 3, y: 3 },
+  "Temple":           { x: 4, y: 8 },
+  "Town":             { x: 0, y: 3 },
+  "Volcano":          { x: 10, y: 4 },
+  "Wasteland":        { x: 9, y: 1.5 }
 };
 
 // Custom Node Component
@@ -88,7 +90,8 @@ function BiomeNode({ data, selected }: { data: { label: string }; selected: bool
 const initialNodes: Node[] = biomes.map((biome) => ({
   id: biome,
   data: { label: biome },
-  position: { x: 0, y: 0 },
+  // Use saved position or default to center
+  position: nodePositions[biome] ? { x: nodePositions[biome].x * nodeSpacingX, y: -1 * nodePositions[biome].y * nodeSpacingY } : { x: 500, y: 300 },
   type: 'biomeNode',
 }));
 
@@ -96,16 +99,14 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  // Create and layout edges
-  useLayoutEffect(() => {
-    const baseEdges = createEdges(adjacencyList);
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-      initialNodes,
-      baseEdges
-    );
+  // Add position logging
+  const handleNodesChange = (changes: any) => {
+    onNodesChange(changes);
+  };
 
-    setNodes(layoutedNodes);
-    setEdges(layoutedEdges);
+  // Remove layout useEffect and replace with simple edge creation
+  useLayoutEffect(() => {
+    setEdges(createEdges(adjacencyList));
   }, []);
 
   // Update active path immediately and when it changes
@@ -150,7 +151,7 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
+        onNodesChange={handleNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={{ biomeNode: BiomeNode }}
         fitView

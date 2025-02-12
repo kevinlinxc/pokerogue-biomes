@@ -3,138 +3,15 @@
 import { useState, useMemo } from "react"
 import { BiomeDropdown } from "./biome-dropdown"
 import { RouteList } from "./route-list"
+import { biomes, adjacencyList } from "./biome-data"
 
-const biomes = [
-  "Abyss",
-  "Ancient Ruins",
-  "Badlands",
-  "Beach",
-  "Cave",
-  "Construction Site",
-  "Desert",
-  "Dojo",
-  "Factory",
-  "Fairy Cave",
-  "Forest",
-  "Grassy Field",
-  "Graveyard",
-  "Ice Cave",
-  "Island",
-  "Jungle",
-  "Laboratory",
-  "Lake",
-  "Meadow",
-  "Metropolis",
-  "Mountain",
-  "Plains",
-  "Power Plant",
-  "Sea",
-  "Seabed",
-  "Slum",
-  "Snowy Forest",
-  "Space",
-  "Swamp",
-  "Tall Grass",
-  "Temple",
-  "Town",
-  "Volcano",
-  "Wasteland",
-]
-
-const adjacencyList: { [key: string]: [string, number][] } = {
-  "Abyss": [["Space", 0.5], ["Cave", 1.0]],
-  "Ancient Ruins": [["Mountain", 1.0], ["Forest", 0.5]],
-  "Badlands": [["Mountain", 1.0], ["Desert", 1.0]],
-  "Beach": [["Sea", 1.0], ["Island", 0.5]],
-  "Cave": [["Lake", 1.0], ["Laboratory", 0.5], ["Badlands", 1.0]],
-  "Construction Site": [["Dojo", 0.5], ["Power Plant", 1.0]],
-  "Desert": [["Ancient Ruins", 1.0], ["Construction Site", 0.5]],
-  "Dojo": [["Plains", 1.0], ["Jungle", 0.5], ["Temple", 0.5]],
-  "Factory": [["Plains", 1.0], ["Laboratory", 0.5]],
-  "Fairy Cave": [["Space", 0.5], ["Ice Cave", 1.0]],
-  "Forest": [["Meadow", 1.0], ["Jungle", 1.0]],
-  "Grassy Field": [["Tall Grass", 1.0]],
-  "Graveyard": [["Abyss", 1.0]],
-  "Ice Cave": [["Snowy Forest", 1.0]],
-  "Island": [["Sea", 1.0]],
-  "Jungle": [["Temple", 1.0]],
-  "Laboratory": [["Construction Site", 1.0]],
-  "Lake": [["Swamp", 1.0], ["Beach", 1.0], ["Construction Site", 1.0]],
-  "Meadow": [["Plains", 1.0], ["Fairy Cave", 1.0]],
-  "Metropolis": [["Slum", 1.0]],
-  "Mountain": [["Space", 0.33], ["Volcano", 1.0], ["Wasteland", 0.5]],
-  "Plains": [["Grassy Field", 1.0], ["Metropolis", 1.0], ["Lake", 1.0]],
-  "Power Plant": [["Factory", 1.0]],
-  "Sea": [["Seabed", 1.0], ["Ice Cave", 1.0]],
-  "Seabed": [["Cave", 1], ["Volcano", 0.33]],
-  "Slum": [["Construction Site", 1.0], ["Swamp", 0.5]],
-  "Snowy Forest": [["Forest", 1.0], ["Mountain", 0.5], ["Lake", 0.5]],
-  "Space": [["Ancient Ruins", 1.0]],
-  "Swamp": [["Graveyard", 1.0], ["Tall Grass", 1.0]],
-  "Tall Grass": [["Cave", 1.0], ["Forest", 1.0]],
-  "Temple": [["Desert", 1.0], ["Ancient Ruins", 0.5], ["Swamp", 0.5]],
-  "Town": [["Plains", 1.0]],
-  "Volcano": [["Beach", 1.0], ["Ice Cave", 0.33]],
-  "Wasteland": [["Badlands", 1.0]],
-}
-
-export function validateBiomeGraph(biomes: string[], adjacencyList: { [key: string]: [string, number][] }): boolean {
-  const uniqueAdjacencyBiomes = new Set<string>();
-  // Add all source biomes (keys)
-  Object.keys(adjacencyList).forEach(biome => uniqueAdjacencyBiomes.add(biome));
-
-  // Add all destination biomes (from the connection lists)
-  Object.values(adjacencyList).forEach(connections => {
-    connections.forEach(([biome]) => uniqueAdjacencyBiomes.add(biome));
-  });
-  const uniqueBiomesList = new Set(biomes);
-
-  if (uniqueAdjacencyBiomes.size !== uniqueBiomesList.size) {
-    console.error("Biome count mismatch:", {
-      adjacencyListCount: uniqueAdjacencyBiomes.size,
-      biomesListCount: uniqueBiomesList.size,
-      missingInAdjacencyList: [...uniqueBiomesList].filter(b => !uniqueAdjacencyBiomes.has(b)),
-      missingInBiomesList: [...uniqueAdjacencyBiomes].filter(b => !uniqueBiomesList.has(b))
-    });
-    return false;
-  }
-
-  // Check 2: Verify all nodes can be visited using DFS
-  const visited = new Set<string>();
-
-  function dfs(node: string) {
-    visited.add(node);
-    const neighbors = adjacencyList[node] || [];
-    for (const [nextNode] of neighbors) {
-      if (!visited.has(nextNode)) {
-        dfs(nextNode);
-      }
-    }
-  }
-
-  // Start DFS from the first node
-  const startNode = "Town";
-  dfs(startNode);
-
-  // Check if all nodes were visited
-  const unreachableNodes = biomes.filter(node => !visited.has(node));
-  if (unreachableNodes.length > 0) {
-    console.error("Unreachable biomes:", unreachableNodes);
-    return false;
-  }
-  console.log("Biome graph is valid");
-
-  return true;
-}
-
-validateBiomeGraph(biomes, adjacencyList);
-
-type Route = {
+export type Route = {
   path: string[];
   probabilities: number[];
 }
 
 function findShortestRoutes(source: string, destination: string): Route[] {
+  console.log(`Finding routes from ${source} to ${destination}`);
   const visited = new Set<string>();
   const queue: { node: string; path: string[]; probs: number[] }[] = [];
   const routes: Route[] = [];
@@ -145,9 +22,11 @@ function findShortestRoutes(source: string, destination: string): Route[] {
 
   while (queue.length > 0) {
     const { node, path, probs } = queue.shift()!;
+    console.log(`Visiting node ${node}, path so far:`, path);
 
     // If we found a path to destination
     if (node === destination) {
+      console.log(`Found path to destination:`, path);
       // If this is the first path or same length as shortest
       if (path.length <= shortestLength) {
         shortestLength = path.length;
@@ -160,6 +39,7 @@ function findShortestRoutes(source: string, destination: string): Route[] {
 
     // Get neighbors from adjacency list
     const neighbors = adjacencyList[node] || [];
+    console.log(`Neighbors for ${node}:`, neighbors);
     for (const [nextNode, probability] of neighbors) {
       if (!visited.has(nextNode)) {
         visited.add(nextNode);
@@ -172,6 +52,7 @@ function findShortestRoutes(source: string, destination: string): Route[] {
     }
   }
 
+  console.log(`Found ${routes.length} routes:`, routes);
   return routes;
 }
 
@@ -180,6 +61,7 @@ export default function BiomeRouteFinder() {
   const [destinationBiome, setDestinationBiome] = useState<string | null>(null)
 
   const routes = useMemo(() => {
+    console.log("Finding routes from", sourceBiome, "to", destinationBiome);
     if (sourceBiome && destinationBiome) {
       return findShortestRoutes(sourceBiome, destinationBiome)
     }

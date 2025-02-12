@@ -18,14 +18,15 @@ interface BiomeGraphProps {
   activeProbs: number[];
 }
 
-const nodeWidth = 64;
-const nodeHeight = 64;
+const nodeWidth = 30;
+const nodeHeight = 18;
+const BORDER_RADIUS = '0.25rem'; // Consistent border radius for both selection and image
 
 // Layout function using dagre
 const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: 'LR' });
+  dagreGraph.setGraph({ rankdir: 'LR', ranker: "tight-tree" });
 
   // Add nodes to dagre
   nodes.forEach((node) => {
@@ -58,30 +59,26 @@ const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
 // Custom Node Component
 function BiomeNode({ data, selected }: { data: { label: string }; selected: boolean }) {
   const imagePath = `/images/${data.label.toLowerCase().replace(" ", '_')}.png`;
-  
   return (
     <div className={`
-      w-30 h-16 rounded-xl overflow-hidden shadow-sm transition-all duration-200
-      ${selected ? 'ring-2 ring-blue-500 ring-offset-2' : 'ring-1 ring-slate-200'}
-    `}>
-      <Handle type="target" position={Position.Top} className="w-3 h-3 !bg-slate-400" />
-      <Handle type="target" position={Position.Left} className="w-3 h-3 !bg-slate-400" />
-      <Handle type="source" position={Position.Right} className="w-3 h-3 !bg-slate-400" />
-      <Handle type="source" position={Position.Bottom} className="w-3 h-3 !bg-slate-400" />
+        relative w-28 h-16 overflow-hidden
+        ${selected ? 'ring-2 ring-blue-500' : 'ring-transparent'}
+        transform-gpu
+      `}
+      style = {{ borderRadius: "0.2rem" }} //crying, sobbing
+    >
+      <Handle type="target" position={Position.Top} className="w-3 h-3 !bg-slate-400/50" />
+      <Handle type="target" position={Position.Left} className="w-3 h-3 !bg-slate-400/50" />
+      <Handle type="source" position={Position.Right} className="w-3 h-3 !bg-slate-400/50" />
+      <Handle type="source" position={Position.Bottom} className="w-3 h-3 !bg-slate-400/50" />
       
-      <div className="relative w-full h-full group">
+      <div className="absolute inset-0 overflow-hidden">
         <img 
           src={imagePath} 
           alt={data.label}
           className="w-full h-full object-cover"
+          draggable={false}
         />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-200">
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 
-                        text-white text-xs font-medium text-center 
-                        absolute inset-0 flex items-center justify-center">
-            {data.label}
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -101,7 +98,6 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
 
   // Create and layout edges
   useLayoutEffect(() => {
-    console.log("Initializing graph with edges");
     const baseEdges = createEdges(adjacencyList);
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
       initialNodes,
@@ -112,42 +108,42 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
     setEdges(layoutedEdges);
   }, []);
 
-  // Update active path
+  // Update active path immediately and when it changes
   useLayoutEffect(() => {
-    console.log("Updating active path:", activePath);
-    if (activePath.length > 1) {
-      setEdges((eds) =>
-        eds.map((edge) => {
-          const isActive = activePath.some((_, i) => 
-            i < activePath.length - 1 && 
-            edge.id === `${activePath[i]}-${activePath[i + 1]}`
-          );
-          
-          return {
-            ...edge,
-            animated: isActive,
-            style: {
-              stroke: isActive ? '#3b82f6' : '#94a3b8',
-              opacity: isActive ? 1 : 0.3,
-              strokeWidth: isActive ? 3 : 1,
-            },
-          };
-        })
-      );
-
-      setNodes((nds) =>
-        nds.map((node) => ({
-          ...node,
+    if (!edges.length) return; // Skip if edges haven't been created yet
+    
+    setEdges((eds) =>
+      eds.map((edge) => {
+        const isActive = activePath.some((_, i) => 
+          i < activePath.length - 1 && 
+          edge.id === `${activePath[i]}-${activePath[i + 1]}`
+        );
+        
+        return {
+          ...edge,
+          animated: isActive,
           style: {
-            ...node.style,
-            borderColor: activePath.includes(node.id) ? '#3b82f6' : '#94a3b8',
-            borderWidth: activePath.includes(node.id) ? '2px' : '1px',
-            background: activePath.includes(node.id) ? '#eff6ff' : '#fff',
+            stroke: isActive ? '#3b82f6' : '#94a3b8',
+            opacity: isActive ? 1 : 0.3,
+            strokeWidth: isActive ? 3 : 1,
           },
-        }))
-      );
-    }
-  }, [activePath, setEdges, setNodes]);
+        };
+      })
+    );
+
+    setNodes((nds) =>
+      nds.map((node) => ({
+        ...node,
+        style: {
+          ...node.style,
+          borderColor: activePath.includes(node.id) ? '#3b82f6' : '#111111',
+          borderWidth: activePath.includes(node.id) ? '2px' : '1px',
+          background: 'black',
+          borderRadius: "0.3rem", // crying, sobbing
+        },
+      }))
+    );
+  }, [activePath, edges.length]);
 
   return (
     <div className="h-[600px] bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200">
@@ -160,7 +156,7 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         fitView
         className="bg-slate-50/50"
         minZoom={0.5}
-        maxZoom={1.5}
+        maxZoom={3}
         defaultEdgeOptions={{
           type: 'smoothstep',
           markerEnd: { type: MarkerType.ArrowClosed },

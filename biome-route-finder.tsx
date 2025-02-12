@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { BiomeDropdown } from "./biome-dropdown"
 import { RouteList } from "./route-list"
 import { biomes, adjacencyList } from "./biome-data"
@@ -22,11 +22,9 @@ function findShortestRoutes(source: string, destination: string): Route[] {
 
   while (queue.length > 0) {
     const { node, path, probs } = queue.shift()!;
-    console.log(`Visiting node ${node}, path so far:`, path);
 
     // If we found a path to destination
     if (node === destination) {
-      console.log(`Found path to destination:`, path);
       // If this is the first path or same length as shortest
       if (path.length <= shortestLength) {
         shortestLength = path.length;
@@ -39,7 +37,6 @@ function findShortestRoutes(source: string, destination: string): Route[] {
 
     // Get neighbors from adjacency list
     const neighbors = adjacencyList[node] || [];
-    console.log(`Neighbors for ${node}:`, neighbors);
     for (const [nextNode, probability] of neighbors) {
       if (!visited.has(nextNode)) {
         visited.add(nextNode);
@@ -57,11 +54,17 @@ function findShortestRoutes(source: string, destination: string): Route[] {
 }
 
 export default function BiomeRouteFinder() {
-  const [sourceBiome, setSourceBiome] = useState<string | null>(null)
-  const [destinationBiome, setDestinationBiome] = useState<string | null>(null)
+  const [sourceBiome, setSourceBiome] = useState<string | null>("Town")
+  const [destinationBiome, setDestinationBiome] = useState<string | null>("Volcano")
+
+  // Force initial route calculation
+  useEffect(() => {
+    if (sourceBiome && destinationBiome) {
+      findShortestRoutes(sourceBiome, destinationBiome);
+    }
+  }, []);
 
   const routes = useMemo(() => {
-    console.log("Finding routes from", sourceBiome, "to", destinationBiome);
     if (sourceBiome && destinationBiome) {
       return findShortestRoutes(sourceBiome, destinationBiome)
     }

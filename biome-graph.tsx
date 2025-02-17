@@ -20,15 +20,15 @@ interface BiomeGraphProps {
   activeProbs: number[];
 }
 
-const nodeSpacingX = 200;
-const nodeSpacingY = 150;
+const nodeSpacingX = 150;
+const nodeSpacingY = 130;
 const BORDER_RADIUS = '0.25rem'; // Consistent border radius for both selection and image
 
 const nodePositions: { [key: string]: { x: number, y: number } } = {
   "Abyss": { x: 6, y: 2 },
   "Ancient Ruins": { x: 5, y: 7.1 },
   "Badlands": { x: 7, y: 1 },
-  "Beach": { x: 8, y: 4 },
+  "Beach": { x: 8.4, y: 4 },
   "Cave": { x: 7, y: 3 },
   "Construction Site": { x: 2.1, y: 7 },
   "Desert": { x: 4, y: 7 },
@@ -76,7 +76,7 @@ export const TargetHandleWithValidation = ({ id, position, source, style }: { id
       height: '12px',
       background: '#3b82f6', // Bright blue color
       border: '2px solid white',
-      opacity: 1, // Full opacity
+      opacity: 0, // Full opacity
       zIndex: 1000, // Ensure handles are above other elements 
     }}
   />
@@ -96,7 +96,7 @@ export const SourceHandleWithValidation = ({ id, position, target, style }: { id
       height: '12px',
       background: '#FF0000', // 
       border: '2px solid white',
-      opacity: 1, // Full opacity
+      opacity: 0, // Full opacity
       zIndex: 1000, // Ensure handles are above other elements 
     }}
   />
@@ -270,7 +270,7 @@ const biomeHandles: Record<string, BiomeConnections> = {
 };
 
 // Add the initial edges configuration
-const initialEdgeConnections =[
+const initialEdgeConnections = [
   {
     "id": "Mountain-Wasteland",
     "source": "Mountain",
@@ -936,84 +936,83 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
   const [menu, setMenu] = useState<{ position: { x: number; y: number }; connection: any } | null>(null);
 
   // Handle connection
-  const onConnect = useCallback((connection: any) => {
-    // Show menu at mouse position
-    console.log(connection);
-    setMenu({
-      position: { x: (window.event as MouseEvent)?.clientX * 0.7 || 0, y: (window.event as MouseEvent)?.clientY * 0.7 || 0 },
-      connection
-    });
-  }, []);
+  // const onConnect = useCallback((connection: any) => {
+  //   // Show menu at mouse position
+  //   console.log(connection);
+  //   setMenu({
+  //     position: { x: (window.event as MouseEvent)?.clientX * 0.7 || 0, y: (window.event as MouseEvent)?.clientY * 0.7 || 0 },
+  //     connection
+  //   });
+  // }, []);
 
   // Handle edge type selection
-  const handleEdgeTypeSelect = useCallback((type: EdgeType) => {
-    if (!menu) return;
+  // const handleEdgeTypeSelect = useCallback((type: EdgeType) => {
+  //   if (!menu) return;
 
-    const { source, target, sourceHandle, targetHandle } = menu.connection;
-    console.log("connection: ", menu.connection);
+  //   const { source, target, sourceHandle, targetHandle } = menu.connection;
+  //   console.log("connection: ", menu.connection);
 
-    // Find probability from adjacencyList
-    const probability = adjacencyList[source]?.find(([t]) => t === target)?.[1] || 1.0;
-    // if probability is less than 100%, add the label
-    if (probability < 1.0) {
-      // make it blue if == 0.5, yellow if 0.3
-      let labelColor = '#000000';
-      let lineStroke = '#94a3b8';
-      if (probability === 0.5) {
-        labelColor = '#3b82f6';
-        lineStroke = '#3b82f6';
-      } else if (probability === 0.33) {
-        labelColor = '#eab308';
-        lineStroke = '#eab308';
-      }
-      const newEdge: Edge = {
-        id: `${source}-${target}`,
-        source: source,
-        target: target,
-        sourceHandle: sourceHandle,
-        targetHandle: targetHandle,
-        type,
-        animated: false,
-        label: `${(probability * 100).toFixed(0)}%`,
-        labelStyle: { fill: labelColor, fontSize: 19 },
-        style: { stroke: lineStroke, opacity: 0.3 },
-        markerEnd: { type: MarkerType.ArrowClosed },
-      };
-      setEdges(eds => [...eds, newEdge]);
-    }
-    else {
-      const newEdge: Edge = {
-        id: `${source}-${target}`,
-        source: source,
-        target: target,
-        sourceHandle: sourceHandle,
-        targetHandle: targetHandle,
-        type,
-        animated: false,
-        style: { stroke: '#94a3b8', opacity: 0.3 },
-        markerEnd: { type: MarkerType.ArrowClosed },
-      };
-      setEdges(eds => [...eds, newEdge]);
-    }
-    // Create new edge
+  //   // Find probability from adjacencyList
+  //   const probability = adjacencyList[source]?.find(([t]) => t === target)?.[1] || 1.0;
+  //   // if probability is less than 100%, add the label
+  //   if (probability < 1.0) {
+  //     // make it blue if == 0.5, yellow if 0.3
+  //     let labelColor = '#000000';
+  //     let lineStroke = '#94a3b8';
+  //     if (probability === 0.5) {
+  //       labelColor = '#3b82f6';
+  //       lineStroke = '#3b82f6';
+  //     } else if (probability === 0.33) {
+  //       labelColor = '#eab308';
+  //       lineStroke = '#eab308';
+  //     }
+  //     const newEdge: Edge = {
+  //       id: `${source}-${target}`,
+  //       source: source,
+  //       target: target,
+  //       sourceHandle: sourceHandle,
+  //       targetHandle: targetHandle,
+  //       type,
+  //       animated: false,
+  //       label: `${(probability * 100).toFixed(0)}%`,
+  //       labelStyle: { fill: labelColor, fontSize: 19 },
+  //       style: { stroke: lineStroke, opacity: 0.3 },
+  //       markerEnd: { type: MarkerType.ArrowClosed },
+  //     };
+  //     setEdges(eds => [...eds, newEdge]);
+  //   }
+  //   else {
+  //     const newEdge: Edge = {
+  //       id: `${source}-${target}`,
+  //       source: source,
+  //       target: target,
+  //       sourceHandle: sourceHandle,
+  //       targetHandle: targetHandle,
+  //       type,
+  //       animated: false,
+  //       style: { stroke: '#94a3b8', opacity: 0.3 },
+  //       markerEnd: { type: MarkerType.ArrowClosed },
+  //     };
+  //     setEdges(eds => [...eds, newEdge]);
+  //   }
+  //   // Create new edge
 
-    setMenu(null);
-  }, [menu, setEdges]);
+  //   setMenu(null);
+  // }, [menu, setEdges]);
 
-  // Modified save function to print edge data
-  const handleSaveEdges = useCallback(() => {
-    const edgeData = edges.map(edge => ({
-      id: edge.id,
-      source: edge.source,
-      target: edge.target,
-      sourceHandle: edge.sourceHandle,
-      targetHandle: edge.targetHandle,
-      type: edge.type,
-      label: edge.label,
-    }));
-    console.log('Edge Data:');
-    console.log(JSON.stringify(edgeData, null, 2));
-  }, [edges]);
+  // const handleSaveEdges = useCallback(() => {
+  //   const edgeData = edges.map(edge => ({
+  //     id: edge.id,
+  //     source: edge.source,
+  //     target: edge.target,
+  //     sourceHandle: edge.sourceHandle,
+  //     targetHandle: edge.targetHandle,
+  //     type: edge.type,
+  //     label: edge.label,
+  //   }));
+  //   console.log('Edge Data:');
+  //   console.log(JSON.stringify(edgeData, null, 2));
+  // }, [edges]);
 
   // Add position logging
   const handleNodesChange = (changes: any) => {
@@ -1034,14 +1033,20 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
           edge.id === `${activePath[i]}-${activePath[i + 1]}`
         );
 
+        // Get original color based on probability label
+        const originalColor = edge.label?.includes('50%') ? '#3b82f6' :
+          edge.label?.includes('33%') ? '#eab308' :
+            '#94a3b8';
+
         return {
           ...edge,
           animated: isActive,
           style: {
-            stroke: isActive ? '#25bd49' : edge.style?.stroke,
-            opacity: isActive ? 1 : 1,
+            ...edge.style,
+            stroke: originalColor,
+            opacity: 1,
             strokeDasharray: 5,
-            strokeWidth: isActive ? 8 : 3,
+            strokeWidth: isActive ? 5 : 2,
           },
         };
       })
@@ -1067,21 +1072,21 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
   };
 
   // Add handler for removing last edge
-  const handleRemoveLastEdge = useCallback(() => {
-    setEdges(eds => eds.slice(0, -1));
-  }, [setEdges]);
+  // const handleRemoveLastEdge = useCallback(() => {
+  //   setEdges(eds => eds.slice(0, -1));
+  // }, [setEdges]);
 
   // Update the buttons section in the return statement
   return (
-    <div className="h-[1000px] bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200">
-      {menu && (
+    <div className="h-[800px] bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200">
+      {/* {menu && (
         <EdgeTypeMenu
           position={menu.position}
           onSelect={handleEdgeTypeSelect}
           onClose={() => setMenu(null)}
         />
-      )}
-      <div className="absolute top-4 right-4 z-10 space-x-2">
+      )} */}
+      {/* <div className="absolute top-4 right-4 z-10 space-x-2">
         <button
           onClick={handleRemoveLastEdge}
           className="px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600"
@@ -1095,42 +1100,20 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         >
           Print Edges to Console
         </button>
-      </div>
+      </div> */}
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={handleNodesChange}
         onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        // onConnect={onConnect}
         nodeTypes={nodeTypes}
         fitView
         className="bg-slate-50/50"
-        minZoom={0.75}
-        maxZoom={1.25}
+        minZoom={0.7}
+        maxZoom={1}
         defaultEdgeOptions={edgeOptions}
       />
     </div>
   );
 }
-
-// Helper function to create edges from adjacency list
-// function createEdges(adjacencyList: { [key: string]: [string, number][] }): Edge[] {
-//   const edges: Edge[] = [];
-//   Object.entries(adjacencyList).forEach(([source, targets]) => {
-//     targets.forEach(([target, probability]) => {
-//       edges.push({
-//         id: `${source}-${target}`,
-//         source,
-//         target,
-//         animated: false,
-//         type: 'smoothstep',
-//         markerEnd: { type: MarkerType.ArrowClosed },
-//         label: `${(probability * 100).toFixed(0)}%`,
-//         labelStyle: { fill: '#64748b', fontSize: 10 },
-//         style: { stroke: '#94a3b8', opacity: 0.3 },
-//       });
-//     });
-//   });
-//   return edges;
-// }
-

@@ -26,9 +26,9 @@ const BORDER_RADIUS = '0.25rem'; // Consistent border radius for both selection 
 
 const nodePositions: { [key: string]: { x: number, y: number } } = {
   "Abyss": { x: 6, y: 2 },
-  "Ancient Ruins": { x: 5, y: 7.1 },
+  "Ancient Ruins": { x: 5, y: 7 },
   "Badlands": { x: 7, y: 1 },
-  "Beach": { x: 8.4, y: 4 },
+  "Beach": { x: 8.28, y: 4 },
   "Cave": { x: 7, y: 3 },
   "Construction Site": { x: 2.1, y: 7 },
   "Desert": { x: 4, y: 7 },
@@ -51,7 +51,7 @@ const nodePositions: { [key: string]: { x: number, y: number } } = {
   "Sea": { x: 9, y: 3 },
   "Seabed": { x: 8, y: 2 },
   "Slum": { x: 0, y: 4.7 },
-  "Snowy Forest": { x: 8, y: 5 },
+  "Snowy Forest": { x: 8.2, y: 5 },
   "Space": { x: 6, y: 7 },
   "Swamp": { x: 5, y: 3.5 },
   "Tall Grass": { x: 3, y: 3 },
@@ -240,7 +240,7 @@ const biomeHandles: Record<string, BiomeConnections> = {
   },
   "Space": {
     sources: [['L', 'Ancient Ruins']],
-    targets: [['T', 'Mountain'], ['B', 'Abyss'], ['R', 'Fairy Cave']]
+    targets: [['RT', 'Mountain'], ['B', 'Abyss'], ['R', 'Fairy Cave']]
   },
   "Swamp": {
     sources: [['LB', 'Tall Grass'], ['B', 'Graveyard']],
@@ -294,7 +294,8 @@ const initialEdgeConnections = [
     "target": "Wasteland",
     "sourceHandle": "source-B-Wasteland",
     "targetHandle": "target-L-Abyss",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "50%"
   },
   {
     "id": "Seabed-Volcano",
@@ -343,7 +344,7 @@ const initialEdgeConnections = [
     "source": "Mountain",
     "target": "Space",
     "sourceHandle": "source-T-Space",
-    "targetHandle": "target-T-Mountain",
+    "targetHandle": "target-RT-Mountain",
     "type": "smoothstep",
     "label": "33%"
   },
@@ -1036,7 +1037,7 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         // Get original color based on probability label
         const originalColor = edge.label?.includes('50%') ? '#3b82f6' :
           edge.label?.includes('33%') ? '#eab308' :
-            '#94a3b8';
+            '#363a45';
 
         return {
           ...edge,

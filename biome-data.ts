@@ -1,3 +1,4 @@
+// also see manual data entered for node placement and handle placemenet in biome-graph.tsx
 export const biomes = [
   "Abyss",
   "Ancient Ruins",
@@ -36,7 +37,7 @@ export const biomes = [
 ]
 
 export const adjacencyList: { [key: string]: [string, number][] } = {
-  "Abyss": [["Space", 0.5], ["Cave", 1.0]],
+  "Abyss": [["Space", 0.5], ["Cave", 1.0], ["Wasteland", 0.5]],
   "Ancient Ruins": [["Mountain", 1.0], ["Forest", 0.5]],
   "Badlands": [["Mountain", 1.0], ["Desert", 1.0]],
   "Beach": [["Sea", 1.0], ["Island", 0.5]],

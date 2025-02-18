@@ -53,7 +53,7 @@ function findShortestRoutes(source: string, destination: string): Route[] {
     }
   }
 
-  console.log(`Found ${routes.length} routes:`, routes);
+  // console.log(`Found ${routes.length} routes:`, routes);
   return routes;
 }
 
@@ -62,9 +62,9 @@ function findHighestProbabilityRoute(source: string, destination: string): Route
   const visited = new Set<string>();
   const queue: { node: string; path: string[]; probs: number[] }[] = [];
   let bestRoute: Route | null = null;
+  let highestProbability = 0;
 
   queue.push({ node: source, path: [source], probs: [] });
-  visited.add(source);
 
   while (queue.length > 0) {
     const { node, path, probs } = queue.shift()!;
@@ -72,9 +72,9 @@ function findHighestProbabilityRoute(source: string, destination: string): Route
     // If we found a path to destination
     if (node === destination) {
       const totalProbability = probs.reduce((acc, prob) => acc * prob, 1);
-      if (totalProbability === 1) {
+      if (totalProbability > highestProbability) {
+        highestProbability = totalProbability;
         bestRoute = { path, probabilities: probs };
-        break;
       }
       continue;
     }
@@ -82,7 +82,7 @@ function findHighestProbabilityRoute(source: string, destination: string): Route
     // Get neighbors from adjacency list
     const neighbors = adjacencyList[node] || [];
     for (const [nextNode, probability] of neighbors) {
-      if (!visited.has(nextNode) && probability === 1) {
+      if (!visited.has(nextNode)) {
         visited.add(nextNode);
         queue.push({
           node: nextNode,
@@ -94,10 +94,10 @@ function findHighestProbabilityRoute(source: string, destination: string): Route
   }
 
   if (bestRoute) {
-    console.log(`Found highest probability route:`, bestRoute);
+    // console.log(`Found highest probability route:`, bestRoute);
     return [bestRoute];
   } else {
-    console.log(`No 100% probability route found`);
+    console.log(`No route found`);
     return [];
   }
 }

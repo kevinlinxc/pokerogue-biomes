@@ -30,3 +30,9 @@ although the information about the actual ReactFlow graph, such as node placemen
 Some other supporting files:
 - [`route-list.tsx`](/route-list.tsx)
 - ['biome-dropdown.tsx`](/biome-dropdown.tsx) 
+
+## Testing
+No unit tests =D
+
+- Temple has two shortest cycles, useful for testing that
+- Space to Abyss has vastly different shortest and highest probability path

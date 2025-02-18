@@ -196,20 +196,22 @@ export default function BiomeRouteFinder() {
         <h1 className="text-2xl font-bold mb-8 text-slate-800">PokéRogue Path Finder</h1>
 
         <Tab.Group onChange={(index) => setMode(index === 0 ? 'route' : 'cycle')}>
-          <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1 mb-6">
+          <Tab.List className="flex space-x-1 rounded-xl bg-red-700/20 p-1 mb-6">
             <Tab className={({ selected }) =>
               `w-full rounded-lg py-3 text-base font-medium leading-5
+               focus:outline-none focus:ring-2 focus:ring-black-500
                ${selected
-                ? 'bg-white text-blue-900 shadow'
-                : 'text-blue-700 hover:bg-white/[0.12] hover:text-blue-800'}`
+          ? 'bg-white text-red-900 shadow'
+          : 'text-red-700 hover:bg-white/[0.12] hover:text-black-800'}`
             }>
               Route
             </Tab>
             <Tab className={({ selected }) =>
               `w-full rounded-lg py-3 text-base font-medium leading-5
+               focus:outline-none focus:ring-2 focus:ring-black-500
                ${selected
-                ? 'bg-white text-blue-900 shadow'
-                : 'text-blue-700 hover:bg-white/[0.12] hover:text-blue-800'}`
+          ? 'bg-white text-red-900 shadow'
+          : 'text-red-700 hover:bg-white/[0.12] hover:text-black-800'}`
             }>
               Cycle
             </Tab>

@@ -1083,7 +1083,7 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         const originalColor = typeof edge.label === 'string' && edge.label.includes('50%') ? '#3b82f6' :
           typeof edge.label === 'string' && edge.label.includes('33%') ? '#eab308' :
             '#363a45';
-        
+
         // if edge has label of 100%, delete it
         if (typeof edge.label === 'string' && edge.label.includes('100%')) {
           edge.label = '';
@@ -1124,7 +1124,7 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
 
   // Update the buttons section in the return statement
   return (
-    <div className="h-[800px] bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200">
+    <div className="h-full bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200">
       {/* {menu && (
         <EdgeTypeMenu
           position={menu.position}
@@ -1156,8 +1156,9 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         nodeTypes={nodeTypes}
         fitView
         className="bg-slate-50/50"
-        minZoom={0.7}
+        minZoom={0.4}
         maxZoom={1}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}
       />
     </div>
   );

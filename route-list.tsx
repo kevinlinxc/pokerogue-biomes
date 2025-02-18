@@ -12,7 +12,7 @@ export function RouteList({ routes, mode }: RouteListProps) {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 lg:space-y-8">
       <AnimatePresence mode="wait">
         {routes.length === 0 ? (
           <motion.div
@@ -20,15 +20,17 @@ export function RouteList({ routes, mode }: RouteListProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="space-y-8"
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="space-y-4 lg:space-y-8"
           >
             <div className="h-full flex items-center justify-center mb-8">
               <p className="text-slate-400">
                 {mode === 'cycle' ? 'Select a biome to find cycles' : 'Select biomes to find routes'}
               </p>
             </div>
+            <div className="h-[60vh] lg:h-[800px]">
             <BiomeGraph activePath={[]} activeProbs={[]} />
+            </div>
           </motion.div>
         ) : (
           <motion.div
@@ -36,11 +38,11 @@ export function RouteList({ routes, mode }: RouteListProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.1, ease: 'easeInOut' }}
-            className="space-y-8"
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="space-y-4 lg:space-y-8"
           >
-            {/* Route cards */}
-            <div className="space-y-4">
+            {/* Route cards - Modified for responsive layout */}
+            <div className="space-y-3 lg:space-y-4">
               {routes.map((route, routeIndex) => (
                 <motion.div
                   key={routeIndex}
@@ -49,8 +51,8 @@ export function RouteList({ routes, mode }: RouteListProps) {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.1, ease: 'easeOut' }}
                   onClick={() => setSelectedRouteIndex(routeIndex)}
-                  className={`relative bg-white/50 p-6 rounded-xl shadow-sm cursor-pointer
-                    transition-all duration-200 hover:bg-white/60
+                  className={`relative bg-white/50 p-4 lg:p-6 rounded-xl shadow-sm cursor-pointer
+                    transition-all duration-200 hover:bg-white/60 text-sm lg:text-base
                     ${selectedRouteIndex === routeIndex ? 'ring-2 ring-blue-500 bg-white/70' : ''}`}
                 >
                   <div className="flex flex-wrap gap-2 items-center justify-center">
@@ -85,15 +87,19 @@ export function RouteList({ routes, mode }: RouteListProps) {
                 </motion.div>
               ))}
             </div>
-
             {/* Graph visualization */}
-            <BiomeGraph
-              activePath={routes[selectedRouteIndex]?.path || []}
-              activeProbs={routes[selectedRouteIndex]?.probabilities || []}
-            />
+            <div className="h-[60vh] lg:h-[800px]">
+              <BiomeGraph
+                activePath={routes[selectedRouteIndex]?.path || []}
+                activeProbs={routes[selectedRouteIndex]?.probabilities || []}
+              />
+            </div>
           </motion.div>
+
         )}
       </AnimatePresence>
+
+
     </div>
   );
 }

@@ -3,13 +3,22 @@ import { BiomeGraph } from './biome-graph';
 
 interface RouteListProps {
   routes: Route[];
+  mode: 'route' | 'cycle';
 }
 
-export function RouteList({ routes }: RouteListProps) {
+export function RouteList({ routes, mode }: RouteListProps) {
   if (routes.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center">
-        <p className="text-slate-400">Select biomes to find routes</p>
+      <div className="space-y-8">
+        <div className="h-full flex items-center justify-center mb-8">
+            <p className="text-slate-400">
+            {mode === 'cycle' ? 'Select a biome to find cycles' : 'Select biomes to find routes'}
+            </p>
+        </div>
+        <BiomeGraph
+          activePath={[]}
+          activeProbs={[]}
+        />
       </div>
     );
   }
@@ -20,7 +29,7 @@ export function RouteList({ routes }: RouteListProps) {
       <div className="space-y-4">
         {routes.map((route, routeIndex) => (
           <div key={routeIndex} className="relative bg-white/50 p-6 rounded-xl shadow-sm">
-            <div className="flex flex-wrap gap-2 items-center">
+            <div className="flex flex-wrap gap-2 items-center justify-center">
               {route.path.map((biome, nodeIndex) => (
                 <div key={nodeIndex} className="flex items-center">
                   {/* Biome node */}
@@ -29,7 +38,7 @@ export function RouteList({ routes }: RouteListProps) {
                                 transition-colors hover:bg-slate-50">
                     <span className="text-slate-700 font-medium whitespace-nowrap">{biome}</span>
                   </div>
-                  
+
                   {/* Arrow and probability */}
                   {nodeIndex < route.path.length - 1 && (
                     <div className="flex items-center mx-2">
@@ -46,7 +55,7 @@ export function RouteList({ routes }: RouteListProps) {
                 </div>
               ))}
             </div>
-            
+
             {/* Route number */}
             <div className="absolute -left-3 -top-3 w-8 h-8 
                           bg-white shadow-md rounded-full 
@@ -61,7 +70,7 @@ export function RouteList({ routes }: RouteListProps) {
       </div>
 
       {/* Graph visualization */}
-      <BiomeGraph 
+      <BiomeGraph
         activePath={routes[0]?.path || []}
         activeProbs={routes[0]?.probabilities || []}
       />

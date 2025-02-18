@@ -5,11 +5,12 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 interface BiomeDropdownProps {
   biomes: string[]
   value: string | null
-  onChange: (value: string) => void
+  onChange: (value: string | null) => void 
   placeholder: string
+  allowEmpty?: boolean
 }
 
-export function BiomeDropdown({ biomes, value, onChange, placeholder }: BiomeDropdownProps) {
+export function BiomeDropdown({ biomes, value, onChange, placeholder, allowEmpty }: BiomeDropdownProps) {
   return (
     <Listbox value={value} onChange={onChange}>
       <div className="relative">
@@ -33,13 +34,23 @@ export function BiomeDropdown({ biomes, value, onChange, placeholder }: BiomeDro
           <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto 
                                     rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 
                                     focus:outline-none">
+            {allowEmpty && (
+              <Listbox.Option
+                value={null}
+                className={({ active }) =>
+                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-slate-100 text-slate-900' : 'text-slate-700'
+                  }`
+                }
+              >
+                <span className="block truncate font-normal">{placeholder}</span>
+              </Listbox.Option>
+            )}
             {biomes.map((biome) => (
               <Listbox.Option
                 key={biome}
                 value={biome}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active ? 'bg-slate-100 text-slate-900' : 'text-slate-700'
+                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-slate-100 text-slate-900' : 'text-slate-700'
                   }`
                 }
               >

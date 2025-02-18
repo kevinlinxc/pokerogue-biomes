@@ -1083,6 +1083,11 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         const originalColor = typeof edge.label === 'string' && edge.label.includes('50%') ? '#3b82f6' :
           typeof edge.label === 'string' && edge.label.includes('33%') ? '#eab308' :
             '#363a45';
+        
+        // if edge has label of 100%, delete it
+        if (typeof edge.label === 'string' && edge.label.includes('100%')) {
+          edge.label = '';
+        }
 
         return {
           ...edge,
@@ -1111,11 +1116,6 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
       }))
     );
   }, [activePath, edges.length]);
-
-  const edgeOptions = {
-    type: 'simplebezier',
-    markerEnd: { type: MarkerType.ArrowClosed },
-  };
 
   // Add handler for removing last edge
   // const handleRemoveLastEdge = useCallback(() => {
@@ -1158,7 +1158,6 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         className="bg-slate-50/50"
         minZoom={0.7}
         maxZoom={1}
-        defaultEdgeOptions={edgeOptions}
       />
     </div>
   );

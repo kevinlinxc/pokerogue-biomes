@@ -860,7 +860,7 @@ const initialEdgeConnections = [
 
 // Update BiomeNode to use the connections
 function BiomeNode({ data, selected }: { data: { label: string }; selected: boolean }) {
-  const imagePath = `/images/${data.label.toLowerCase().replace(" ", '_')}.png`;
+  const imagePath = `/biome-images/${data.label.toLowerCase().replace(" ", '_')}.png`;
   const connections = biomeHandles[data.label] || { sources: [], targets: [] };
 
   return (

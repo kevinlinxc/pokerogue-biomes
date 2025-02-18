@@ -1043,7 +1043,7 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
           animated: isActive,
           style: {
             ...edge.style,
-            stroke: originalColor,
+            stroke: isActive ? "#25bd49" : originalColor,
             opacity: 1,
             strokeDasharray: 5,
             strokeWidth: isActive ? 5 : 2,

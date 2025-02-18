@@ -286,7 +286,8 @@ const initialEdgeConnections = [
     "target": "Badlands",
     "sourceHandle": "source-B-Badlands",
     "targetHandle": "target-R-Wasteland",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Abyss-Wasteland",
@@ -312,7 +313,8 @@ const initialEdgeConnections = [
     "target": "Seabed",
     "sourceHandle": "source-BL-Seabed",
     "targetHandle": "target-TR-Sea",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Sea-Ice Cave",
@@ -320,7 +322,8 @@ const initialEdgeConnections = [
     "target": "Ice Cave",
     "sourceHandle": "source-T-Ice Cave",
     "targetHandle": "target-B-Sea",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Mountain-Volcano",
@@ -328,7 +331,8 @@ const initialEdgeConnections = [
     "target": "Volcano",
     "sourceHandle": "source-BL-Volcano",
     "targetHandle": "target-R-Mountain",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Snowy Forest-Mountain",
@@ -354,7 +358,8 @@ const initialEdgeConnections = [
     "target": "Mountain",
     "sourceHandle": "source-TR-Mountain",
     "targetHandle": "target-TR-Ancient Ruins",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Ice Cave-Snowy Forest",
@@ -362,7 +367,8 @@ const initialEdgeConnections = [
     "target": "Snowy Forest",
     "sourceHandle": "source-BL-Snowy Forest",
     "targetHandle": "target-TR-Ice Cave",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Fairy Cave-Ice Cave",
@@ -370,7 +376,8 @@ const initialEdgeConnections = [
     "target": "Ice Cave",
     "sourceHandle": "source-R-Ice Cave",
     "targetHandle": "target-L-Fairy Cave",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Meadow-Fairy Cave",
@@ -378,7 +385,8 @@ const initialEdgeConnections = [
     "target": "Fairy Cave",
     "sourceHandle": "source-R-Fairy Cave",
     "targetHandle": "target-L-Meadow",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Snowy Forest-Lake",
@@ -395,7 +403,8 @@ const initialEdgeConnections = [
     "target": "Beach",
     "sourceHandle": "source-R-Beach",
     "targetHandle": "target-L-Lake",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Beach-Island",
@@ -412,7 +421,8 @@ const initialEdgeConnections = [
     "target": "Sea",
     "sourceHandle": "source-BR-Sea",
     "targetHandle": "target-TL-Beach",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Volcano-Beach",
@@ -420,7 +430,8 @@ const initialEdgeConnections = [
     "target": "Beach",
     "sourceHandle": "source-L-Beach",
     "targetHandle": "target-R-Volcano",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Island-Sea",
@@ -428,7 +439,8 @@ const initialEdgeConnections = [
     "target": "Sea",
     "sourceHandle": "source-R-Sea",
     "targetHandle": "target-L-Island",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Seabed-Cave",
@@ -436,7 +448,8 @@ const initialEdgeConnections = [
     "target": "Cave",
     "sourceHandle": "source-TL-Cave",
     "targetHandle": "target-BR-Seabed",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Cave-Lake",
@@ -444,7 +457,8 @@ const initialEdgeConnections = [
     "target": "Lake",
     "sourceHandle": "source-T-Lake",
     "targetHandle": "target-B-Cave",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Cave-Badlands",
@@ -452,7 +466,8 @@ const initialEdgeConnections = [
     "target": "Badlands",
     "sourceHandle": "source-B-Badlands",
     "targetHandle": "target-T-Cave",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Abyss-Space",
@@ -469,7 +484,8 @@ const initialEdgeConnections = [
     "target": "Cave",
     "sourceHandle": "source-TR-Cave",
     "targetHandle": "target-BL-Abyss",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Fairy Cave-Space",
@@ -495,7 +511,8 @@ const initialEdgeConnections = [
     "target": "Cave",
     "sourceHandle": "source-R-Cave",
     "targetHandle": "target-L-Tall Grass",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Grassy Field-Tall Grass",
@@ -503,7 +520,8 @@ const initialEdgeConnections = [
     "target": "Tall Grass",
     "sourceHandle": "source-R-Tall Grass",
     "targetHandle": "target-L-Grassy Field",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Town-Plains",
@@ -511,7 +529,8 @@ const initialEdgeConnections = [
     "target": "Plains",
     "sourceHandle": "source-TR-Plains",
     "targetHandle": "target-BL-Town",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Plains-Grassy Field",
@@ -519,7 +538,8 @@ const initialEdgeConnections = [
     "target": "Grassy Field",
     "sourceHandle": "source-B-Grassy Field",
     "targetHandle": "target-T-Plains",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Plains-Metropolis",
@@ -527,7 +547,8 @@ const initialEdgeConnections = [
     "target": "Metropolis",
     "sourceHandle": "source-L-Metropolis",
     "targetHandle": "target-R-Plains",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Metropolis-Slum",
@@ -535,7 +556,8 @@ const initialEdgeConnections = [
     "target": "Slum",
     "sourceHandle": "source-T-Slum",
     "targetHandle": "target-B-Metropolis",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Slum-Construction Site",
@@ -543,7 +565,8 @@ const initialEdgeConnections = [
     "target": "Construction Site",
     "sourceHandle": "source-T-Construction Site",
     "targetHandle": "target-L-Slum",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Swamp-Tall Grass",
@@ -551,7 +574,8 @@ const initialEdgeConnections = [
     "target": "Tall Grass",
     "sourceHandle": "source-LB-Tall Grass",
     "targetHandle": "target-RT-Swamp",
-    "type": "bezier"
+    "type": "bezier",
+    "label": "100%"
   },
   {
     "id": "Badlands-Mountain",
@@ -559,7 +583,8 @@ const initialEdgeConnections = [
     "target": "Mountain",
     "sourceHandle": "source-RB-Mountain",
     "targetHandle": "target-BR-Badlands",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Space-Ancient Ruins",
@@ -567,7 +592,8 @@ const initialEdgeConnections = [
     "target": "Ancient Ruins",
     "sourceHandle": "source-L-Ancient Ruins",
     "targetHandle": "target-R-Space",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Desert-Ancient Ruins",
@@ -575,7 +601,8 @@ const initialEdgeConnections = [
     "target": "Ancient Ruins",
     "sourceHandle": "source-R-Ancient Ruins",
     "targetHandle": "target-L-Desert",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Temple-Ancient Ruins",
@@ -610,7 +637,8 @@ const initialEdgeConnections = [
     "target": "Jungle",
     "sourceHandle": "source-T-Jungle",
     "targetHandle": "target-B-Forest",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Jungle-Temple",
@@ -618,7 +646,8 @@ const initialEdgeConnections = [
     "target": "Temple",
     "sourceHandle": "source-R-Temple",
     "targetHandle": "target-L-Jungle",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Dojo-Temple",
@@ -662,7 +691,8 @@ const initialEdgeConnections = [
     "target": "Desert",
     "sourceHandle": "source-B-Desert",
     "targetHandle": "target-T-Temple",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Graveyard-Abyss",
@@ -670,7 +700,8 @@ const initialEdgeConnections = [
     "target": "Abyss",
     "sourceHandle": "source-R-Abyss",
     "targetHandle": "target-L-Graveyard",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Swamp-Graveyard",
@@ -678,7 +709,8 @@ const initialEdgeConnections = [
     "target": "Graveyard",
     "sourceHandle": "source-B-Graveyard",
     "targetHandle": "target-T-Swamp",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Lake-Swamp",
@@ -686,7 +718,8 @@ const initialEdgeConnections = [
     "target": "Swamp",
     "sourceHandle": "source-BL-Swamp",
     "targetHandle": "target-R-Lake",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Factory-Plains",
@@ -694,7 +727,8 @@ const initialEdgeConnections = [
     "target": "Plains",
     "sourceHandle": "source-BL-Plains",
     "targetHandle": "target-TR-Factory",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Meadow-Plains",
@@ -702,7 +736,8 @@ const initialEdgeConnections = [
     "target": "Plains",
     "sourceHandle": "source-B-Plains",
     "targetHandle": "target-RT-Meadow",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Dojo-Plains",
@@ -710,7 +745,8 @@ const initialEdgeConnections = [
     "target": "Plains",
     "sourceHandle": "source-LB-Plains",
     "targetHandle": "target-LT-Dojo",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Construction Site-Power Plant",
@@ -718,7 +754,8 @@ const initialEdgeConnections = [
     "target": "Power Plant",
     "sourceHandle": "source-BL-Power Plant",
     "targetHandle": "target-TR-Construction Site",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Power Plant-Factory",
@@ -726,7 +763,8 @@ const initialEdgeConnections = [
     "target": "Factory",
     "sourceHandle": "source-BR-Factory",
     "targetHandle": "target-TL-Power Plant",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Factory-Laboratory",
@@ -743,7 +781,8 @@ const initialEdgeConnections = [
     "target": "Construction Site",
     "sourceHandle": "source-T-Construction Site",
     "targetHandle": "target-B-Laboratory",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Tall Grass-Forest",
@@ -751,7 +790,8 @@ const initialEdgeConnections = [
     "target": "Forest",
     "sourceHandle": "source-T-Forest",
     "targetHandle": "target-B-Tall Grass",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Forest-Meadow",
@@ -759,7 +799,8 @@ const initialEdgeConnections = [
     "target": "Meadow",
     "sourceHandle": "source-R-Meadow",
     "targetHandle": "target-L-Forest",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Snowy Forest-Forest",
@@ -767,7 +808,8 @@ const initialEdgeConnections = [
     "target": "Forest",
     "sourceHandle": "source-B-Forest",
     "targetHandle": "target-BR-Snowy Forest",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Badlands-Desert",
@@ -775,7 +817,8 @@ const initialEdgeConnections = [
     "target": "Desert",
     "sourceHandle": "source-L-Desert",
     "targetHandle": "target-B-Badlands",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Lake-Construction Site",
@@ -783,7 +826,8 @@ const initialEdgeConnections = [
     "target": "Construction Site",
     "sourceHandle": "source-T-Construction Site",
     "targetHandle": "target-BR-Lake",
-    "type": "smoothstep"
+    "type": "smoothstep",
+    "label": "100%"
   },
   {
     "id": "Plains-Lake",
@@ -791,7 +835,8 @@ const initialEdgeConnections = [
     "target": "Lake",
     "sourceHandle": "source-R-Lake",
     "targetHandle": "target-L-Plains",
-    "type": "straight"
+    "type": "straight",
+    "label": "100%"
   },
   {
     "id": "Slum-Swamp",
@@ -921,13 +966,13 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
       ...conn,
       animated: false,
       style: {
-        stroke: conn.label?.includes('50%') ? '#3b82f6' :
-          conn.label?.includes('33%') ? '#eab308' : '#94a3b8',
+        stroke: conn.label.includes('50%') ? '#3b82f6' :
+          conn.label.includes('33%') ? '#eab308' : '#94a3b8',
         opacity: 0.3
       },
       labelStyle: {
-        fill: conn.label?.includes('50%') ? '#3b82f6' :
-          conn.label?.includes('33%') ? '#eab308' : '#000000',
+        fill: conn.label.includes('50%') ? '#3b82f6' :
+          conn.label.includes('33%') ? '#eab308' : '#000000',
         fontSize: 15,
       },
       markerEnd: { type: MarkerType.ArrowClosed },
@@ -1035,8 +1080,8 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         );
 
         // Get original color based on probability label
-        const originalColor = edge.label?.includes('50%') ? '#3b82f6' :
-          edge.label?.includes('33%') ? '#eab308' :
+        const originalColor = typeof edge.label === 'string' && edge.label.includes('50%') ? '#3b82f6' :
+          typeof edge.label === 'string' && edge.label.includes('33%') ? '#eab308' :
             '#363a45';
 
         return {

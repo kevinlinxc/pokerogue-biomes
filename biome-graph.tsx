@@ -1159,6 +1159,9 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
         minZoom={0.4}
         maxZoom={1}
         defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}
+        // set these two to true if editing the map in development
+        nodesDraggable={false}
+        nodesConnectable={false}
       />
     </div>
   );

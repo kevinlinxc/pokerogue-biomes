@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react"
 import { BiomeDropdown } from "./biome-dropdown"
 import { RouteList } from "./route-list"
 import { biomes, adjacencyList } from "./biome-data"
-import { Tab } from '@headlessui/react'
+import { Tab, TabGroup, TabList } from '@headlessui/react'
 
 export type Route = {
   path: string[];
@@ -191,12 +191,11 @@ export default function BiomeRouteFinder() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gradient-to-br from-rose-50 via-sky-50 to-indigo-100">
-      {/* Left Sidebar - Modified for responsive layout */}
       <div className="lg:w-80 w-full bg-white/70 backdrop-blur-sm p-6 lg:border-r border-b lg:border-b-0 border-slate-200 shadow-lg relative">
         <h1 className="text-2xl font-bold mb-8 text-slate-800">PokéRogue Path Finder</h1>
 
-        <Tab.Group onChange={(index) => setMode(index === 0 ? 'route' : 'cycle')}>
-          <Tab.List className="flex space-x-1 rounded-xl bg-red-700/20 p-1 mb-6">
+        <TabGroup onChange={(index) => setMode(index === 0 ? 'route' : 'cycle')}>
+          <TabList className="flex space-x-1 rounded-xl bg-red-700/20 p-1 mb-6">
             <Tab className={({ selected }) =>
               `w-full rounded-lg py-3 text-base font-medium leading-5
                focus:outline-none focus:ring-2 focus:ring-black-500
@@ -215,8 +214,8 @@ export default function BiomeRouteFinder() {
             }>
               Cycle
             </Tab>
-          </Tab.List>
-        </Tab.Group>
+          </TabList>
+        </TabGroup>
 
         <div className="space-y-6">
           <div className="space-y-2">
@@ -264,7 +263,7 @@ export default function BiomeRouteFinder() {
           )}
         </div>
 
-        {/* Move GitHub link to be responsive */}
+        {/* report a bug button */}
         <a
           href="https://github.com/kevinlinxc/pokerogue-biomes/issues"
           target="_blank"
@@ -278,9 +277,15 @@ export default function BiomeRouteFinder() {
         </a>
       </div>
 
-      {/* Main Content - Modified for responsive layout */}
+      {/* Main Content */}
       <div className="flex-1 p-4 lg:p-8 overflow-auto">
-        <RouteList routes={routes} mode={mode} />
+        <RouteList 
+          routes={routes} 
+          mode={mode} 
+          routeType={routeType}
+          sourceBiome={sourceBiome || ''}
+          destinationBiome={destinationBiome || undefined}
+        />
       </div>
     </div>
   );

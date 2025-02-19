@@ -2,14 +2,44 @@ import { type Route } from './biome-route-finder';
 import { BiomeGraph } from './biome-graph';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { ClipboardDocumentIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
+
+function formatRouteForClipboard(route: Route, mode: 'route' | 'cycle', routeType: 'shortest' | 'highest-probability', source: string, destination?: string): string {
+  const pathText = route.path.reduce((acc, biome, index) => {
+    if (index === route.path.length - 1) return acc + biome;
+    return acc + biome + ` → ${(route.probabilities[index] * 100).toFixed(0)}% → `;
+  }, '');
+
+  let prefix = '';
+  if (mode === 'route') {
+    prefix = routeType === 'shortest'
+      ? `The shortest route from ${source} to ${destination} is: `
+      : `The highest probability route from ${source} to ${destination} is: `;
+  } else {
+    prefix = `The shortest cycle containing ${source} is: `;
+  }
+
+  return prefix + pathText + '\naccording to https://pokerogue-biomes.vercel.app/';
+}
 
 interface RouteListProps {
   routes: Route[];
   mode: 'route' | 'cycle';
+  routeType: 'shortest' | 'highest-probability';
+  sourceBiome: string;
+  destinationBiome?: string;
 }
 
-export function RouteList({ routes, mode }: RouteListProps) {
+export function RouteList({ routes, mode, routeType, sourceBiome, destinationBiome }: RouteListProps) {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const handleCopy = async (route: Route, index: number) => {
+    const text = formatRouteForClipboard(route, mode, routeType, sourceBiome, destinationBiome);
+    await navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000); // Reset after 2 seconds
+  };
 
   return (
     <div className="space-y-4 lg:space-y-8">
@@ -29,7 +59,7 @@ export function RouteList({ routes, mode }: RouteListProps) {
               </p>
             </div>
             <div className="h-[60vh] lg:h-[800px]">
-            <BiomeGraph activePath={[]} activeProbs={[]} />
+              <BiomeGraph activePath={[]} activeProbs={[]} />
             </div>
           </motion.div>
         ) : (
@@ -52,9 +82,43 @@ export function RouteList({ routes, mode }: RouteListProps) {
                   transition={{ duration: 0.1, ease: 'easeOut' }}
                   onClick={() => setSelectedRouteIndex(routeIndex)}
                   className={`relative bg-white/50 p-4 lg:p-6 rounded-xl shadow-sm cursor-pointer
-                    transition-all duration-200 hover:bg-white/60 text-sm lg:text-base
+                    transition-all duration-200 hover:bg-white/60 text-sm lg:text-base group
                     ${selectedRouteIndex === routeIndex ? 'ring-2 ring-blue-500 bg-white/70' : ''}`}
                 >
+                  {/* Add copy button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent route selection
+                      handleCopy(route, routeIndex);
+                    }}
+                    className="absolute right-2 top-2 p-2 rounded-lg 
+                             transition-all duration-100 
+                             opacity-80 group-hover:opacity-100
+                             hover:bg-slate-200/50"
+                  >
+                    <AnimatePresence mode="wait">
+                      {copiedIndex === routeIndex ? (
+                        <motion.div
+                          initial={{ scale: 0.5, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.5, opacity: 0 }}
+                          key="check"
+                        >
+                          <ClipboardDocumentCheckIcon className="w-5 h-5 text-green-600" />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          initial={{ scale: 0.5, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.5, opacity: 0 }}
+                          key="copy"
+                        >
+                          <ClipboardDocumentIcon className="w-5 h-5 text-slate-600" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </button>
+
                   <div className="flex flex-wrap gap-2 items-center justify-center">
                     {route.path.map((biome, nodeIndex) => (
                       <div key={nodeIndex} className="flex items-center">

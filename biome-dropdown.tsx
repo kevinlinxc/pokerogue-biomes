@@ -5,7 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 interface BiomeDropdownProps {
   biomes: string[]
   value: string | null
-  onChange: (value: string | null) => void 
+  onChange: (value: string | null) => void
   placeholder: string
   allowEmpty?: boolean
 }

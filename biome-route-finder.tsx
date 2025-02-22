@@ -191,7 +191,8 @@ export default function BiomeRouteFinder() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gradient-to-br from-rose-50 via-sky-50 to-indigo-100">
-      <div className="lg:w-80 w-full bg-white/70 backdrop-blur-sm p-6 lg:border-r border-b lg:border-b-0 border-slate-200 shadow-lg relative">
+      {/* Sidebar */}
+      <div className="lg:w-80 w-full bg-white p-6 lg:border-r border-b lg:border-b-0 border-slate-200 shadow-lg relative">
         <h1 className="text-2xl font-bold mb-8 text-slate-800">PokéRogue Path Finder</h1>
 
         <TabGroup onChange={(index) => setMode(index === 0 ? 'route' : 'cycle')}>
@@ -238,27 +239,33 @@ export default function BiomeRouteFinder() {
             </select>
           </div>
 
+          {/* First dropdown */}
           <div className="space-y-2">
             <p className="text-slate-600">Starting from</p>
-            <BiomeDropdown
-              biomes={biomes}
-              value={sourceBiome}
-              onChange={setSourceBiome}
-              placeholder="Select start biome"
-              allowEmpty={false}  // Don't allow empty for source
-            />
+            <div className="relative">
+              <BiomeDropdown
+                biomes={biomes}
+                value={sourceBiome}
+                onChange={setSourceBiome}
+                placeholder="Select start biome"
+                allowEmpty={false}
+              />
+            </div>
           </div>
 
+          {/* Second dropdown */}
           {mode === 'route' && (
             <div className="space-y-2">
               <p className="text-slate-600">to</p>
-              <BiomeDropdown
-                biomes={biomes}
-                value={destinationBiome}
-                onChange={setDestinationBiome}
-                placeholder="Select target biome"
-                allowEmpty={true}  // Allow empty for destination
-              />
+              <div className="relative">
+                <BiomeDropdown
+                  biomes={biomes}
+                  value={destinationBiome}
+                  onChange={setDestinationBiome}
+                  placeholder="Select target biome"
+                  allowEmpty={true}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -277,11 +284,11 @@ export default function BiomeRouteFinder() {
         </a>
       </div>
 
-      {/* Main Content */}
+      {/* Main content */}
       <div className="flex-1 p-4 lg:p-8 overflow-auto">
-        <RouteList 
-          routes={routes} 
-          mode={mode} 
+        <RouteList
+          routes={routes}
+          mode={mode}
           routeType={routeType}
           sourceBiome={sourceBiome || ''}
           destinationBiome={destinationBiome || undefined}

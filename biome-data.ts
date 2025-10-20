@@ -72,3 +72,353 @@ export const adjacencyList: { [key: string]: [string, number][] } = {
   "Volcano": [["Beach", 1.0], ["Ice Cave", 0.33]],
   "Wasteland": [["Badlands", 1.0]]
 };
+
+// biome -> rarity -> pokemon list
+export const pokemonPerBiome: { [key: string]: { [key: string]: string[] } } = {
+  "Abyss": {
+    "Common": ["Murkrow", "Houndour", "Houndoom", "Sableye", "Purrloin", "Liepard", "Pawniard", "Bisharp", "Nickit", "Thievul", "Impidimp", "Morgrem", "Grimmsnarl", "Maschiff", "Mabosstiff", "Kingambit"],
+    "Rare": ["Absol", "Spiritomb", "Zorua", "Zoroark", "Deino", "Zweilous", "Hydreigon"],
+    "Super Rare": ["Umbreon"],
+    "Ultra Rare": ["Darkrai", "Galarian Moltres"],
+    "Boss": ["Houndoom", "Sableye", "Absol", "Honchkrow", "Spiritomb", "Liepard", "Zoroark", "Hydreigon", "Thievul", "Grimmsnarl", "Mabosstiff", "Kingambit"],
+    "Boss Rare": ["Umbreon", "Hisuian Samurott"],
+    "Boss Super Rare": ["Darkrai"],
+    "Boss Ultra Rare": ["Palkia", "Yveltal", "Galarian Moltres"],
+  },
+  "Ancient Ruins": {
+    "Common": ["Drowzee", "Hypno", "Natu", "Xatu", "Unown", "Spoink", "Grumpig", "Baltoy", "Claydol", "Elgyem", "Beheeyem"],
+    "Uncommon": ["Abra", "Kadabra", "Sigilyph", "Tinkatink", "Tinkatuff", "Tinkaton"],
+    "Rare": ["Mr. Mime", "Wobbuffet", "Gothita", "Gothorita", "Gothitelle", "Stonjourner"],
+    "Super Rare": ["Espeon", "Archen", "Archeops", "Runerigus", "Galarian Yamask"],
+    "Ultra Rare": ["Registeel", "Fezandipiti"],
+    "Boss": ["Alakazam", "Hypno", "Xatu", "Grumpig", "Claydol", "Sigilyph", "Gothitelle", "Beheeyem", "Tinkaton"],
+    "Boss Rare": ["Mr. Mime", "Espeon", "Wobbuffet", "Archeops", "Runerigus"],
+    "Boss Super Rare": ["Registeel", "Fezandipiti"],
+    "Boss Ultra Rare": ["Koraidon"],
+  },
+  "Badlands": {
+    "Common": ["Diglett", "Dugtrio", "Geodude", "Graveler", "Cubone", "Marowak", "Rhyhorn", "Rhydon", "Phanpy", "Donphan", "Drilbur", "Excadrill", "Mudbray", "Mudsdale"],
+    "Uncommon": ["Sandshrew", "Sandslash", "Numel", "Camerupt", "Roggenrola", "Boldore", "Sizzlipede", "Centiskorch", "Cufant", "Copperajah", "Capsakid", "Scovillain"],
+    "Rare": ["Onix", "Gligar", "Poltchageist", "Sinistcha"],
+    "Ultra Rare": ["Landorus", "Okidogi"],
+    "Boss": ["Dugtrio", "Golem", "Marowak", "Donphan", "Rhyperior", "Gliscor", "Excadrill", "Mudsdale", "Centiskorch", "Copperajah", "Scovillain"],
+    "Boss Rare": ["Steelix", "Sinistcha"],
+    "Boss Super Rare": ["Landorus", "Okidogi"],
+    "Boss Ultra Rare": ["Groudon"],
+  },
+  "Beach": {
+    "Common": ["Shellder", "Krabby", "Kingler", "Staryu", "Starmie", "Corphish", "Crawdaunt", "Dwebble", "Crustle", "Binacle", "Barbaracle", "Mareanie", "Toxapex", "Wiglett", "Wugtrio"],
+    "Uncommon": ["Burmy", "Wormadam", "Clauncher", "Clawitzer", "Sandygast", "Palossand"],
+    "Rare": ["Quaxly", "Quaxwell", "Quaquaval", "Tatsugiri"],
+    "Super Rare": ["Tirtouga", "Carracosta"],
+    "Ultra Rare": ["Keldeo", "Tapu Fini", "Cresselia"],
+    "Boss": ["Cloyster", "Kingler", "Starmie", "Crawdaunt", "Wormadam", "Crustle", "Barbaracle", "Clawitzer", "Toxapex", "Palossand"],
+    "Boss Rare": ["Carracosta", "Quaquaval"],
+    "Boss Super Rare": ["Keldeo", "Tapu Fini", "Cresselia"]
+  },
+  "Cave": {
+    "Common": ["Zubat", "Golbat", "Paras", "Parasect", "Teddiursa", "Ursaring", "Whismur", "Loudred", "Exploud", "Roggenrola", "Boldore", "Woobat", "Swoobat", "Bunnelby", "Diggersby", "Nacli", "Naclstack", "Garganacl"],
+    "Uncommon": ["Geodude", "Graveler", "Makuhita", "Hariyama", "Nosepass", "Noibat", "Noivern", "Rockruff", "Lycanroc", "Wimpod", "Golisopod"],
+    "Rare": ["Onix", "Ferroseed", "Ferrothorn", "Carbink", "Glimmet", "Glimmora"],
+    "Super Rare": ["Shuckle"],
+    "Ultra Rare": ["Uxie"],
+    "Boss": ["Parasect", "Onix", "Crobat", "Ursaring", "Exploud", "Probopass", "Gigalith", "Swoobat", "Diggersby", "Noivern", "Golisopod", "Garganacl"],
+    "Boss Rare": ["Shuckle", "Ferrothorn", "Lycanroc", "Glimmora"],
+    "Boss Super Rare": ["Uxie"],
+    "Boss Ultra Rare": ["Terapagos"]
+  },
+  "Construction Site": {
+    "Common": ["Machop", "Machoke", "Magnemite", "Magneton", "Drilbur", "Excadrill", "Timburr", "Gurdurr"],
+    "Uncommon": ["Grimer", "Muk", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Scraggy", "Scrafty"],
+    "Rare": ["Onix", "Hitmonlee", "Hitmonchan", "Perrserker", "Duraludon", "Galarian Meowth"],
+    "Super Rare": ["Ditto", "Hitmontop"],
+    "Ultra Rare": ["Cobalion", "Stakataka"],
+    "Boss": ["Machamp", "Conkeldurr"],
+    "Boss Rare": ["Perrserker", "Archaludon"],
+    "Boss Super Rare": ["Cobalion", "Stakataka"]
+  },
+  "Desert": {
+    "Common": ["Sandshrew", "Sandslash", "Trapinch", "Cacnea", "Cacturne", "Hippopotas", "Hippowdon", "Skorupi", "Drapion", "Sandile", "Krokorok", "Krookodile", "Silicobra", "Sandaconda", "Rellor", "Rabsca"],
+    "Uncommon": ["Sandile", "Krokorok", "Krookodile", "Maractus", "Helioptile", "Bramblin", "Brambleghast", "Orthworm"],
+    "Rare": ["Vibrava", "Flygon", "Darumaka", "Darmanitan"],
+    "Super Rare": ["Lileep", "Cradily", "Anorith", "Armaldo"],
+    "Ultra Rare": ["Regirock", "Pheromosa", "Tapu Bulu"],
+    "Boss": ["Sandslash", "Cacturne", "Hippowdon", "Drapion", "Krookodile", "Darmanitan", "Maractus", "Heliolisk", "Sandaconda", "Brambleghast", "Rabsca"],
+    "Boss Rare": ["Cradily", "Armaldo"],
+    "Boss Super Rare": ["Regirock", "Pheromosa", "Tapu Bulu"]
+  },
+  "Dojo": {
+    "Common": ["Mankey", "Primeape", "Makuhita", "Hariyama", "Meditite", "Medicham", "Stufful", "Bewear", "Clobbopus", "Grapploct", "Annihilape"],
+    "Uncommon": ["Croagunk", "Toxicroak", "Scraggy", "Scrafty", "Mienfoo", "Mienshao"],
+    "Rare": ["Hitmonlee", "Hitmonchan", "Lucario", "Throh", "Sawk", "Pancham", "Pangoro"],
+    "Super Rare": ["Hitmontop", "Gallade", "Galarian Farfetch'd"],
+    "Ultra Rare": ["Terrakion", "Kubfu", "Galarian Zapdos"],
+    "Boss": ["Hitmonlee", "Hitmonchan", "Hariyama", "Medicham", "Lucario", "Toxicroak", "Throh", "Sawk", "Scrafty", "Mienshao", "Bewear", "Grapploct", "Annihilape"],
+    "Boss Rare": ["Hitmontop", "Gallade", "Pangoro", "Sirfetch'd", "Hisuian Decidueye"],
+    "Boss Super Rare": ["Terrakion", "Urshifu"],
+    "Boss Ultra Rare": ["Zamazenta", "Galarian Zapdos"]
+  },
+  "Factory": {
+    "Common": ["Machop", "Machoke", "Magnemite", "Magneton", "Voltorb", "Electrode", "Timburr", "Gurdurr", "Klink", "Klang", "Klinklang"],
+    "Uncommon": ["Bronzor", "Bronzong", "Klefki"],
+    "Rare": ["Porygon", "Porygon2"],
+    "Super Rare": ["Beldum", "Metang", "Metagross"],
+    "Ultra Rare": ["Genesect", "Magearna"],
+    "Boss": ["Klinklang", "Klefki"],
+    "Boss Super Rare": ["Genesect", "Magearna"]
+  },
+  "Fairy Cave": {
+    "Common": ["Jigglypuff", "Wigglytuff", "Marill", "Azumarill", "Mawile", "Spritzee", "Aromatisse", "Swirlix", "Slurpuff", "Cutiefly", "Ribombee", "Morelull", "Shiinotic", "Milcery", "Alcremie"],
+    "Uncommon": ["Clefairy", "Togetic", "Ralts", "Kirlia", "Gardevoir", "Carbink", "Comfey", "Hatenna", "Hattrem", "Hatterene"],
+    "Rare": ["Audino"],
+    "Super Rare": ["Eternal Floette"],
+    "Ultra Rare": ["Diancie", "Enamorus"],
+    "Boss": ["Wigglytuff", "Mawile", "Togekiss", "Audino", "Aromatisse", "Slurpuff", "Carbink", "Ribombee", "Shiinotic", "Comfey", "Hatterene", "Alcremie"],
+    "Boss Rare": ["Eternal Floette"],
+    "Boss Super Rare": ["Diancie", "Enamorus"],
+    "Boss Ultra Rare": ["Xerneas"]
+  },
+  "Forest": {
+    "Common": ["Butterfree", "Beedrill", "Venonat", "Venomoth", "Bellsprout", "Weepinbell", "Spinarak", "Ariados", "Pineco", "Forretress", "Beautifly", "Dustox", "Seedot", "Nuzleaf", "Shroomish", "Breloom", "Combee", "Vespiquen", "Venipede", "Whirlipede", "Scolipede", "Petilil", "Deerling", "Sawsbuck", "Vivillon", "Tarountula", "Spidops", "Nymble", "Lokix", "Shroodle", "Grafaiai"],
+    "Uncommon": ["Ekans", "Arbok", "Hoothoot", "Noctowl", "Spinarak", "Ariados", "Teddiursa", "Ursaring", "Roselia", "Burmy", "Wormadam", "Mothim", "Pansage", "Simisage", "Sewaddle", "Swadloon", "Leavanny", "Rockruff", "Lycanroc", "Dottler", "Orbeetle"],
+    "Rare": ["Exeggcute", "Scyther", "Heracross", "Stantler", "Treecko", "Grovyle", "Sceptile", "Tropius", "Karrablast", "Shelmet", "Chespin", "Quilladin", "Chesnaught", "Rowlet", "Dartrix", "Decidueye", "Squawkabilly", "Toedscool", "Toedscruel"],
+    "Super Rare": ["Durant", "Bloodmoon Ursaluna"],
+    "Ultra Rare": ["Kartana", "Wo-Chien"],
+    "Boss": ["Venomoth", "Victreebel", "Noctowl", "Ariados", "Forretress", "Beautifly", "Dustox", "Shiftry", "Breloom", "Wormadam", "Mothim", "Vespiquen", "Simisage", "Scolipede", "Lilligant", "Sawsbuck", "Orbeetle", "Spidops", "Lokix", "Grafaiai"],
+    "Boss Rare": ["Heracross", "Stantler", "Sceptile", "Escavalier", "Accelgor", "Durant", "Chesnaught", "Decidueye", "Lycanroc", "Toedscruel", "Bloodmoon Ursaluna"],
+    "Boss Super Rare": ["Kartana", "Wo-Chien"],
+    "Boss Ultra Rare": ["Calyrex"]
+  },
+  "Grassy Field": {
+    "Common": ["Hoppip", "Skiploom", "Sunkern", "Seedot", "Nuzleaf", "Shroomish", "Breloom", "Cottonee", "Petilil"],
+    "Uncommon": ["Combee", "Vespiquen", "Cherubi", "Cherrim", "Foongus", "Amoonguss"],
+    "Rare": ["Bulbasaur", "Ivysaur", "Venusaur", "Growlithe", "Turtwig", "Grotle", "Torterra"],
+    "Super Rare": ["Sudowoodo"],
+    "Ultra Rare": ["Virizion"],
+    "Boss": ["Jumpluff", "Sunflora", "Whimsicott"],
+    "Boss Rare": ["Venusaur", "Sudowoodo", "Torterra"],
+    "Boss Super Rare": ["Virizion"]
+  },
+  "Graveyard": {
+    "Common": ["Gastly", "Haunter", "Shuppet", "Banette", "Duskull", "Dusclops", "Drifloon", "Drifblim", "Litwick", "Lampent", "Phantump", "Pumpkaboo", "Greavard", "Houndstone"],
+    "Uncommon": ["Cubone", "Marowak", "Yamask", "Cofagrigus", "Sinistea", "Polteageist"],
+    "Rare": ["Misdreavus", "Mimikyu", "Fuecoco", "Crocalor", "Skeledirge", "Ceruledge"],
+    "Super Rare": ["Spiritomb"],
+    "Ultra Rare": ["Marshadow", "Spectrier"],
+    "Boss": ["Gengar", "Marowak", "Banette", "Drifblim", "Mismagius", "Dusknoir", "Chandelure", "Trevenant", "Gourgeist", "Mimikyu", "Polteageist", "Houndstone"],
+    "Boss Rare": ["Skeledirge", "Ceruledge", "Hisuian Typhlosion"],
+    "Boss Super Rare": ["Marshadow", "Spectrier"],
+    "Boss Ultra Rare": ["Giratina"]
+  },
+  "Ice Cave": {
+    "Common": ["Seel", "Dewgong", "Swinub", "Piloswine", "Snover", "Abomasnow", "Vanillite", "Vanillish", "Vanilluxe", "Cubchoo", "Beartic", "Bergmite", "Avalugg", "Crabrawler", "Snom", "Frosmoth"],
+    "Uncommon": ["Sneasel", "Snorunt", "Glalie", "Spheal", "Sealeo", "Walrein", "Eiscue", "Cetoddle", "Cetitan"],
+    "Rare": ["Jynx", "Lapras", "Froslass", "Cryogonal"],
+    "Super Rare": ["Delibird", "Rotom", "Amaura", "Aurorus"],
+    "Ultra Rare": ["Articuno", "Regice"],
+    "Boss": ["Dewgong", "Glalie", "Walrein", "Weavile", "Mamoswine", "Froslass", "Vanilluxe", "Beartic", "Cryogonal", "Avalugg", "Crabominable", "Cetitan"],
+    "Boss Rare": ["Jynx", "Lapras", "Glaceon", "Aurorus"],
+    "Boss Super Rare": ["Articuno", "Regice", "Rotom"],
+    "Boss Ultra Rare": ["Kyurem"]
+  },
+  "Island": {
+    "Common": ["Oricorio", "Alolan Rattata", "Alolan Raticate", "Alolan Sandshrew", "Alolan Sandslash", "Alolan Vulpix", "Alolan Ninetales", "Alolan Diglett", "Alolan Dugtrio", "Alolan Meowth", "Alolan Persian", "Alolan Geodude", "Alolan Graveler", "Alolan Golem", "Alolan Grimer", "Alolan Muk"],
+    "Uncommon": ["Bruxish", "Alolan Raichu", "Alolan Exeggutor", "Alolan Marowak"],
+    "Ultra Rare": ["Blacephalon"],
+    "Boss": ["Oricorio", "Bruxish", "Alolan Raticate", "Alolan Raichu", "Alolan Sandslash", "Alolan Ninetales", "Alolan Dugtrio", "Alolan Persian", "Alolan Golem", "Alolan Muk", "Alolan Exeggutor", "Alolan Marowak"],
+    "Boss Super Rare": ["Blacephalon"]
+  },
+  "Jungle": {
+    "Common": ["Spinarak", "Ariados", "Aipom", "Shroomish", "Vespiquen", "Cherubi", "Cherrim", "Purrloin", "Liepard", "Blitzle", "Zebstrika", "Sewaddle", "Swadloon", "Leavanny", "Foongus", "Amoonguss", "Pikipek", "Trumbeak", "Toucannon"],
+    "Uncommon": ["Exeggcute", "Tangela", "Spinarak", "Ariados", "Tropius", "Combee", "Pansage", "Simisage", "Pansear", "Simisear", "Panpour", "Simipour", "Joltik", "Galvantula", "Litleo", "Pyroar", "Pancham", "Pangoro", "Fomantis", "Lurantis", "Komala", "Falinks"],
+    "Rare": ["Scyther", "Yanma", "Slakoth", "Vigoroth", "Slaking", "Seviper", "Carnivine", "Snivy", "Servine", "Serperior", "Foongus", "Amoonguss", "Oranguru", "Passimian", "Grookey", "Thwackey", "Rillaboom", "Galarian Ponyta", "Galarian Rapidash"],
+    "Super Rare": ["Kangaskhan", "Chatot", "Kleavor"],
+    "Ultra Rare": ["Tapu Lele", "Buzzwole", "Zarude", "Munkidori"],
+    "Boss": ["Exeggutor", "Breloom", "Seviper", "Tropius", "Cherrim", "Ambipom", "Carnivine", "Tangrowth", "Yanmega", "Leavanny", "Amoonguss", "Galvantula", "Pyroar", "Pangoro", "Toucannon", "Lurantis", "Komala", "Falinks"],
+    "Boss Rare": ["Kangaskhan", "Scizor", "Slaking", "Leafeon", "Serperior", "Amoonguss", "Rillaboom", "Galarian Rapidash"],
+    "Boss Super Rare": ["Tapu Lele", "Buzzwole", "Zarude", "Munkidori"],
+    "Boss Ultra Rare": ["Kleavor"]
+  },
+  "Laboratory": {
+    "Common": ["Magnemite", "Magneton", "Grimer", "Muk", "Voltorb", "Electrode", "Bronzor", "Bronzong", "Klink", "Klang", "Klinklang"],
+    "Uncommon": ["Solosis", "Duosion", "Reuniclus"],
+    "Rare": ["Ditto", "Porygon", "Porygon2"],
+    "Super Rare": ["Rotom"],
+    "Ultra Rare": ["Type: Null"],
+    "Boss": ["Muk", "Electrode", "Bronzong", "Magnezone", "Porygon-Z", "Reuniclus", "Klinklang"],
+    "Boss Super Rare": ["Rotom", "Zygarde", "Silvally"],
+    "Boss Ultra Rare": ["Mewtwo", "Miraidon"]
+  },
+  "Lake": {
+    "Common": ["Psyduck", "Golduck", "Goldeen", "Seaking", "Magikarp", "Gyarados", "Marill", "Azumarill", "Lotad", "Lombre", "Ducklett", "Swanna", "Chewtle", "Drednaw"],
+    "Uncommon": ["Slowpoke", "Slowbro", "Wooper", "Quagsire", "Surskit", "Masquerain", "Wishiwashi", "Dewpider", "Araquanid", "Flamigo"],
+    "Rare": ["Squirtle", "Wartortle", "Blastoise", "Oshawott", "Dewott", "Samurott", "Froakie", "Frogadier", "Greninja", "Sobble", "Drizzile", "Inteleon"],
+    "Super Rare": ["Vaporeon", "Slowking"],
+    "Ultra Rare": ["Suicune", "Mesprit"],
+    "Boss": ["Golduck", "Slowbro", "Seaking", "Gyarados", "Azumarill", "Masquerain", "Swanna", "Wishiwashi", "Araquanid", "Drednaw"],
+    "Boss Rare": ["Blastoise", "Vaporeon", "Slowking", "Samurott", "Greninja", "Inteleon"],
+    "Boss Super Rare": ["Suicune", "Mesprit"]
+  },
+  "Meadow": {
+    "Common": ["Ledyba", "Ledian", "Roselia", "Blitzle", "Zebstrika", "Cottonee", "Minccino", "Flabébé", "Floette", "Cutiefly", "Ribombee", "Gossifleur", "Eldegoss", "Wooloo", "Dubwool"],
+    "Uncommon": ["Jigglypuff", "Wigglytuff", "Ponyta", "Rapidash", "Mareep", "Flaaffy", "Ampharos", "Snubbull", "Granbull", "Ralts", "Kirlia", "Gardevoir", "Skitty", "Delcatty", "Glameow", "Purugly", "Bouffalant", "Oricorio", "Smoliv", "Dolliv", "Arboliva"],
+    "Rare": ["Tauros", "Eevee", "Miltank", "Volbeat", "Illumise", "Spinda", "Applin", "Sprigatito", "Floragato", "Meowscarada", "Dipplin"],
+    "Super Rare": ["Chansey", "Sylveon"],
+    "Ultra Rare": ["Meloetta"],
+    "Boss": ["Tauros", "Ledian", "Granbull", "Miltank", "Gardevoir", "Delcatty", "Roserade", "Purugly", "Zebstrika", "Cinccino", "Bouffalant", "Florges", "Ribombee", "Dubwool", "Arboliva"],
+    "Boss Rare": ["Blissey", "Sylveon", "Flapple", "Appletun", "Meowscarada", "Hydrapple", "Hisuian Lilligant"],
+    "Boss Super Rare": ["Meloetta"],
+    "Boss Ultra Rare": ["Shaymin"]
+  },
+  "Metropolis": {
+    "Common": ["Rattata", "Raticate", "Houndour", "Houndoom", "Zigzagoon", "Linoone", "Patrat", "Watchog", "Lillipup", "Herdier", "Stoutland", "Yamper", "Boltund"],
+    "Uncommon": ["Pikachu", "Glameow", "Purugly", "Patrat", "Watchog", "Furfrou", "Espurr", "Meowstic", "Indeedee", "Fidough", "Dachsbun", "Squawkabilly"],
+    "Rare": ["Morpeko", "Tandemaus", "Maushold", "Varoom", "Revavroom"],
+    "Super Rare": ["Ditto", "Eevee", "Smeargle"],
+    "Ultra Rare": ["Castform"],
+    "Boss": ["Stoutland", "Furfrou", "Meowstic", "Boltund", "Dachsbun"],
+    "Boss Rare": ["Castform", "Maushold", "Revavroom"]
+  },
+  "Mountain": {
+    "Common": ["Pidgey", "Pidgeotto", "Pidgeot", "Spearow", "Fearow", "Rhyhorn", "Rhydon", "Taillow", "Swellow", "Aron", "Lairon", "Aggron", "Swablu", "Altaria", "Starly", "Staravia", "Staraptor", "Pidove", "Tranquill", "Unfezant", "Roggenrola", "Boldore", "Fletchling", "Fletchinder", "Talonflame", "Skiddo", "Gogoat"],
+    "Uncommon": ["Machop", "Machoke", "Geodude", "Graveler", "Rhyhorn", "Rhydon", "Natu", "Xatu", "Slugma", "Magcargo", "Aron", "Lairon", "Aggron", "Roggenrola", "Boldore", "Rufflet", "Braviary", "Vullaby", "Mandibuzz", "Rookidee", "Corvisquire", "Corviknight", "Nacli", "Naclstack", "Garganacl", "Flittle", "Espathra", "Bombirdier"],
+    "Rare": ["Murkrow", "Skarmory", "Torchic", "Combusken", "Blaziken", "Spoink", "Grumpig", "Hawlucha", "Klawf"],
+    "Super Rare": ["Larvitar", "Pupitar", "Cranidos", "Rampardos", "Shieldon", "Bastiodon", "Gible", "Gabite", "Garchomp", "Rotom", "Archeops", "Axew", "Fraxure"],
+    "Ultra Rare": ["Tornadus", "Ting-Lu", "Ogerpon"],
+    "Boss": ["Pidgeot", "Fearow", "Skarmory", "Swellow", "Aggron", "Altaria", "Staraptor", "Unfezant", "Braviary", "Mandibuzz", "Talonflame", "Gogoat", "Corviknight", "Garganacl", "Espathra"],
+    "Boss Rare": ["Blaziken", "Rampardos", "Bastiodon", "Hawlucha", "Braviary"],
+    "Boss Super Rare": ["Rotom", "Tornadus", "Ting-Lu", "Ogerpon"],
+    "Boss Ultra Rare": ["Ho-Oh"]
+  },
+  "Plains": {
+    "Common": ["Zubat", "Golbat", "Meowth", "Persian", "Sentret", "Furret", "Poochyena", "Mightyena", "Zigzagoon", "Linoone", "Bidoof", "Bibarel", "Yungoos", "Gumshoos", "Skwovet", "Greedent", "Lechonk", "Oinkologne"],
+    "Uncommon": ["Pidgey", "Pidgeotto", "Pidgeot", "Spearow", "Fearow", "Pikachu", "Mankey", "Primeape", "Doduo", "Dodrio", "Poochyena", "Mightyena", "Starly", "Staravia", "Staraptor", "Pidove", "Tranquill", "Unfezant", "Fletchling", "Fletchinder", "Talonflame", "Rockruff", "Lycanroc", "Pawmi", "Pawmo", "Pawmot", "Annihilape"],
+    "Rare": ["Abra", "Kadabra", "Shinx", "Luxio", "Luxray", "Buneary", "Lopunny", "Rookidee", "Corvisquire", "Corviknight", "Paldean Tauros"],
+    "Super Rare": ["Farfetch'd", "Lickitung", "Chansey", "Eevee", "Snorlax", "Dunsparce", "Dudunsparce"],
+    "Ultra Rare": ["Ditto", "Latias", "Latios"],
+    "Boss": ["Persian", "Dodrio", "Furret", "Mightyena", "Linoone", "Bibarel", "Lopunny", "Gumshoos", "Greedent", "Oinkologne"],
+    "Boss Rare": ["Farfetch'd", "Snorlax", "Lickilicky", "Lycanroc", "Pawmot", "Dudunsparce", "Paldean Tauros"],
+    "Boss Super Rare": ["Latias", "Latios"]
+  },
+  "Power Plant": {
+    "Common": ["Pikachu", "Magnemite", "Magneton", "Voltorb", "Electrode", "Electrike", "Manectric", "Shinx", "Luxio", "Luxray", "Dedenne", "Grubbin", "Charjabug", "Pawmi", "Pawmo", "Pawmot", "Tadbulb", "Bellibolt"],
+    "Uncommon": ["Electabuzz", "Plusle", "Minun", "Pachirisu", "Emolga", "Togedemaru"],
+    "Rare": ["Mareep", "Flaaffy"],
+    "Super Rare": ["Jolteon", "Hisuian Voltorb"],
+    "Ultra Rare": ["Raikou", "Thundurus", "Xurkitree", "Zeraora", "Regieleki"],
+    "Boss": ["Raichu", "Manectric", "Luxray", "Magnezone", "Electivire", "Dedenne", "Vikavolt", "Togedemaru", "Pawmot", "Bellibolt"],
+    "Boss Rare": ["Jolteon", "Ampharos", "Hisuian Electrode"],
+    "Boss Super Rare": ["Zapdos", "Raikou", "Thundurus", "Xurkitree", "Zeraora", "Regieleki"],
+    "Boss Ultra Rare": ["Zekrom"]
+  },
+  "Sea": {
+    "Common": ["Tentacool", "Tentacruel", "Slowpoke", "Slowbro", "Magikarp", "Gyarados", "Wingull", "Pelipper", "Buizel", "Floatzel", "Finneon", "Lumineon", "Inkay", "Malamar", "Cramorant", "Finizen", "Palafin"],
+    "Uncommon": ["Poliwag", "Poliwhirl", "Shellder", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Chinchou", "Lanturn", "Carvanha", "Sharpedo", "Wailmer", "Wailord", "Panpour", "Simipour", "Wattrel", "Kilowattrel"],
+    "Rare": ["Lapras", "Piplup", "Prinplup", "Empoleon", "Popplio", "Brionne", "Primarina"],
+    "Super Rare": ["Kingdra", "Rotom", "Tirtouga", "Carracosta"],
+    "Boss": ["Tentacruel", "Pelipper", "Sharpedo", "Floatzel", "Lumineon", "Simipour", "Malamar", "Cramorant", "Kilowattrel", "Palafin"],
+    "Boss Rare": ["Kingdra", "Empoleon", "Primarina"],
+    "Boss Super Rare": ["Rotom"],
+    "Boss Ultra Rare": ["Lugia"]
+  },
+  "Seabed": {
+    "Common": ["Chinchou", "Lanturn", "Remoraid", "Clamperl", "Basculin", "Frillish", "Jellicent", "Arrokuda", "Barraskewda", "Veluza"],
+    "Uncommon": ["Tentacool", "Tentacruel", "Shellder", "Wailmer", "Wailord", "Luvdisc", "Shellos", "Gastrodon", "Skrelp", "Dragalge", "Pincurchin", "Dondozo"],
+    "Rare": ["Qwilfish", "Corsola", "Octillery", "Mantine", "Mantyke", "Alomomola", "Tynamo", "Eelektrik", "Dhelmise"],
+    "Super Rare": ["Omanyte", "Omastar", "Kabuto", "Kabutops", "Relicanth", "Pyukumuku", "Cursola", "Arctovish", "Galarian Corsola", "Hisuian Qwilfish"],
+    "Ultra Rare": ["Feebas", "Nihilego"],
+    "Boss": ["Lanturn", "Qwilfish", "Corsola", "Octillery", "Mantine", "Wailord", "Huntail", "Gorebyss", "Luvdisc", "Jellicent", "Alomomola", "Dragalge", "Barraskewda", "Dondozo"],
+    "Boss Rare": ["Omastar", "Kabutops", "Relicanth", "Eelektross", "Pyukumuku", "Dhelmise", "Cursola", "Arctovish", "Basculegion", "Overqwil"],
+    "Boss Super Rare": ["Milotic", "Nihilego"],
+    "Boss Ultra Rare": ["Kyogre"]
+  },
+  "Slum": {
+    "Common": ["Rattata", "Raticate", "Grimer", "Muk", "Koffing", "Weezing", "Patrat", "Watchog", "Trubbish", "Garbodor"],
+    "Uncommon": ["Burmy", "Wormadam", "Stunky", "Skuntank"],
+    "Rare": ["Toxtricity", "Obstagoon", "Varoom", "Revavroom", "Galarian Zigzagoon", "Galarian Linoone"],
+    "Ultra Rare": ["Guzzlord"],
+    "Boss": ["Muk", "Weezing", "Wormadam", "Skuntank", "Watchog", "Garbodor"],
+    "Boss Rare": ["Toxtricity", "Obstagoon", "Revavroom", "Galarian Weezing"],
+    "Boss Super Rare": ["Guzzlord"]
+  },
+  "Snowy Forest": {
+    "Common": ["Sneasel", "Teddiursa", "Ursaring", "Swinub", "Piloswine", "Snover", "Abomasnow", "Snom", "Frosmoth", "Eiscue"],
+    "Uncommon": ["Sneasel", "Teddiursa", "Ursaring", "Stantler"],
+    "Rare": ["Delibird", "Alolan Sandshrew", "Alolan Sandslash", "Alolan Vulpix", "Alolan Ninetales", "Galarian Darumaka", "Galarian Darmanitan"],
+    "Super Rare": ["Mr. Rime", "Arctozolt", "Galarian Mr. Mime", "Hisuian Sneasel", "Hisuian Zorua", "Hisuian Zoroark", "Hisuian Avalugg"],
+    "Ultra Rare": ["Glastrier", "Chien-Pao", "Galarian Articuno"],
+    "Boss": ["Abomasnow", "Frosmoth", "Wyrdeer", "Ursaluna"],
+    "Boss Rare": ["Mr. Rime", "Arctozolt", "Sneasler", "Alolan Sandslash", "Alolan Ninetales", "Galarian Darmanitan", "Hisuian Zoroark"],
+    "Boss Super Rare": ["Glastrier", "Chien-Pao"],
+    "Boss Ultra Rare": ["Zacian", "Galarian Articuno"]
+  },
+  "Space": {
+    "Common": ["Clefairy", "Lunatone", "Solrock", "Bronzor", "Bronzong", "Munna", "Musharna", "Minior"],
+    "Uncommon": ["Baltoy", "Claydol", "Elgyem", "Beheeyem"],
+    "Rare": ["Beldum", "Metang", "Metagross", "Sigilyph", "Solosis", "Duosion", "Reuniclus"],
+    "Super Rare": ["Porygon", "Porygon2"],
+    "Ultra Rare": ["Cosmog", "Cosmoem", "Celesteela"],
+    "Boss": ["Clefable", "Lunatone", "Solrock", "Bronzong", "Musharna", "Reuniclus", "Minior"],
+    "Boss Rare": ["Metagross", "Porygon-Z"],
+    "Boss Super Rare": ["Celesteela"],
+    "Boss Ultra Rare": ["Rayquaza", "Solgaleo", "Lunala", "Necrozma"]
+  },
+  "Swamp": {
+    "Common": ["Ekans", "Arbok", "Poliwag", "Poliwhirl", "Wooper", "Quagsire", "Lotad", "Lombre", "Gulpin", "Swalot", "Shellos", "Gastrodon", "Tympole", "Palpitoad", "Seismitoad", "Clodsire", "Paldean Wooper"],
+    "Uncommon": ["Ekans", "Arbok", "Psyduck", "Golduck", "Barboach", "Whiscash", "Skorupi", "Drapion", "Croagunk", "Toxicroak", "Stunfisk", "Mareanie", "Toxapex"],
+    "Rare": ["Totodile", "Croconaw", "Feraligatr", "Mudkip", "Marshtomp", "Swampert"],
+    "Super Rare": ["Politoed", "Galarian Slowpoke", "Galarian Slowbro", "Galarian Stunfisk", "Hisuian Sliggoo", "Hisuian Goodra"],
+    "Ultra Rare": ["Azelf", "Poipole"],
+    "Boss": ["Arbok", "Poliwrath", "Quagsire", "Ludicolo", "Swalot", "Whiscash", "Gastrodon", "Seismitoad", "Stunfisk", "Toxapex", "Clodsire"],
+    "Boss Rare": ["Feraligatr", "Politoed", "Swampert", "Galarian Slowbro", "Galarian Slowking", "Galarian Stunfisk", "Hisuian Goodra"],
+    "Boss Super Rare": ["Azelf", "Naganadel"]
+  },
+  "Tall Grass": {
+    "Common": ["Nidoran♀", "Nidorina", "Nidoran♂", "Nidorino", "Oddish", "Gloom", "Nincada", "Ninjask", "Kricketot", "Kricketune", "Fomantis", "Lurantis", "Bounsweet", "Steenee", "Tsareena", "Nymble", "Lokix"],
+    "Uncommon": ["Vulpix", "Paras", "Parasect", "Venonat", "Venomoth", "Spinarak", "Ariados"],
+    "Rare": ["Pinsir", "Chikorita", "Bayleef", "Meganium", "Girafarig", "Zangoose", "Kecleon", "Tropius", "Farigiraf"],
+    "Super Rare": ["Scyther", "Shedinja", "Rotom"],
+    "Boss": ["Nidoqueen", "Nidoking", "Vileplume", "Ninjask", "Zangoose", "Kecleon", "Kricketune", "Lurantis", "Tsareena", "Lokix"],
+    "Boss Rare": ["Pinsir", "Meganium", "Bellossom", "Farigiraf"],
+    "Boss Super Rare": ["Rotom"]
+  },
+  "Temple": {
+    "Common": ["Gastly", "Haunter", "Natu", "Xatu", "Duskull", "Dusclops", "Yamask", "Cofagrigus", "Golett", "Golurk", "Honedge", "Doublade"],
+    "Uncommon": ["Cubone", "Marowak", "Baltoy", "Claydol", "Chimecho", "Chingling", "Skorupi", "Drapion", "Litwick", "Lampent"],
+    "Rare": ["Gimmighoul", "Gholdengo"],
+    "Ultra Rare": ["Hoopa", "Tapu Koko"],
+    "Boss": ["Chimecho", "Cofagrigus", "Golurk", "Aegislash"],
+    "Boss Rare": ["Gholdengo"],
+    "Boss Super Rare": ["Hoopa", "Tapu Koko"],
+    "Boss Ultra Rare": ["Regigigas"]
+  },
+  "Town": {
+    "Common": ["Caterpie", "Metapod", "Weedle", "Kakuna", "Pidgey", "Rattata", "Spearow", "Sentret", "Hoothoot", "Ledyba", "Spinarak", "Hoppip", "Sunkern", "Poochyena", "Zigzagoon", "Wurmple", "Silcoon", "Cascoon", "Taillow", "Starly", "Bidoof", "Patrat", "Lillipup", "Purrloin", "Pidove", "Cottonee", "Fletchling", "Scatterbug", "Spewpa", "Yungoos", "Skwovet", "Blipbug", "Wooloo", "Lechonk"],
+    "Uncommon": ["Ekans", "Nidoran♀", "Nidoran♂", "Oddish", "Paras", "Venonat", "Meowth", "Bellsprout", "Spinarak", "Poochyena", "Lotad", "Seedot", "Shroomish", "Nincada", "Whismur", "Skitty", "Kricketot", "Combee", "Cherubi", "Patrat", "Venipede", "Minccino", "Pawmi", "Fidough"],
+    "Rare": ["Abra", "Surskit", "Rookidee", "Tandemaus"],
+    "Super Rare": ["Eevee", "Ralts"],
+    "Ultra Rare": ["Ditto"]
+  },
+  "Volcano": {
+    "Common": ["Vulpix", "Growlithe", "Ponyta", "Rapidash", "Slugma", "Magcargo", "Numel", "Camerupt", "Salandit", "Salazzle", "Rolycoly", "Carkol", "Coalossal"],
+    "Uncommon": ["Magmar", "Torkoal", "Pansear", "Simisear", "Heatmor", "Turtonator"],
+    "Rare": ["Charmander", "Charmeleon", "Charizard", "Cyndaquil", "Quilava", "Typhlosion", "Chimchar", "Monferno", "Infernape", "Tepig", "Pignite", "Emboar", "Fennekin", "Braixen", "Delphox", "Litten", "Torracat", "Incineroar", "Scorbunny", "Raboot", "Cinderace", "Charcadet", "Armarouge"],
+    "Super Rare": ["Flareon", "Rotom", "Larvesta", "Volcarona", "Hisuian Growlithe"],
+    "Ultra Rare": ["Entei", "Heatran", "Volcanion", "Chi-Yu"],
+    "Boss": ["Ninetales", "Arcanine", "Rapidash", "Magcargo", "Camerupt", "Torkoal", "Magmortar", "Simisear", "Heatmor", "Salazzle", "Turtonator", "Coalossal"],
+    "Boss Rare": ["Charizard", "Flareon", "Typhlosion", "Infernape", "Emboar", "Volcarona", "Delphox", "Incineroar", "Cinderace", "Armarouge", "Hisuian Arcanine"],
+    "Boss Super Rare": ["Moltres", "Entei", "Rotom", "Heatran", "Volcanion", "Chi-Yu"],
+    "Boss Ultra Rare": ["Reshiram"]
+  },
+  "Wasteland": {
+    "Common": ["Larvitar", "Pupitar", "Tyranitar", "Vibrava", "Flygon", "Bagon", "Shelgon", "Salamence", "Gible", "Gabite", "Garchomp", "Axew", "Fraxure", "Haxorus", "Goomy", "Sliggoo", "Goodra", "Jangmo-o", "Hakamo-o", "Kommo-o"],
+    "Uncommon": ["Swablu", "Altaria", "Deino", "Zweilous", "Hydreigon", "Drampa", "Cyclizar"],
+    "Rare": ["Dratini", "Dragonair", "Dragonite", "Dreepy", "Drakloak", "Dragapult", "Frigibax", "Arctibax", "Baxcalibur"],
+    "Super Rare": ["Aerodactyl", "Druddigon", "Tyrunt", "Tyrantrum", "Dracozolt", "Dracovish"],
+    "Ultra Rare": ["Regidrago"],
+    "Boss": ["Dragonite", "Tyranitar", "Flygon", "Salamence", "Garchomp", "Haxorus", "Goodra", "Drampa", "Kommo-o", "Dragapult", "Baxcalibur"],
+    "Boss Rare": ["Aerodactyl", "Druddigon", "Tyrantrum", "Dracozolt", "Dracovish"],
+    "Boss Super Rare": ["Regidrago"],
+    "Boss Ultra Rare": ["Dialga"]
+  },
+}

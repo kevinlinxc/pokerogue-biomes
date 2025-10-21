@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Command, CommandGroup, CommandInput, CommandList } from "./ui/command";
 import SpriteImage from "./sprite-image";
 import { formatPokemonNameForSprite, normalizePokemonName } from "@/lib/pokemon-names";
 import { pokemonPerBiome } from "@/biome-data";
@@ -13,6 +13,8 @@ type PokemonSearchProps = {
 
 export default function PokemonSearch({ value, onSelect }: PokemonSearchProps) {
     const [query, setQuery] = useState("");
+    const [highlightIndex, setHighlightIndex] = useState<number>(-1);
+    const listRef = useRef<HTMLDivElement | null>(null);
 
     // Build unique pokemon list once from pokemonPerBiome
     const allPokemon = useMemo(() => {
@@ -30,8 +32,9 @@ export default function PokemonSearch({ value, onSelect }: PokemonSearchProps) {
     }, []);
 
     const filtered = useMemo(() => {
-        if (value) return [];
         if (!query.trim()) return [];
+        // If a selection exists, hide suggestions only when query matches selection.
+        if (value && normalizePokemonName(query) === normalizePokemonName(value)) return [];
         const q = normalizePokemonName(query);
         return allPokemon
             .filter(name => normalizePokemonName(name).includes(q))
@@ -41,26 +44,49 @@ export default function PokemonSearch({ value, onSelect }: PokemonSearchProps) {
     const handleSelect = (name: string) => {
         onSelect(name);
         setQuery(name);
+        setHighlightIndex(-1);
     };
 
     const handleClear = () => {
         setQuery("");
         onSelect(null);
+        setHighlightIndex(-1);
     };
+
+    // Reset highlight when the filtered list changes
+    useEffect(() => {
+        if (filtered.length > 0) {
+            setHighlightIndex(0);
+        } else {
+            setHighlightIndex(-1);
+        }
+    }, [filtered]);
+
+    // Ensure highlighted item stays visible
+    useEffect(() => {
+        if (!listRef.current) return;
+        if (highlightIndex < 0) return;
+        const el = listRef.current.querySelector<HTMLButtonElement>(`[data-idx="${highlightIndex}"]`);
+        if (el) {
+            el.scrollIntoView({ block: 'nearest' });
+        }
+    }, [highlightIndex]);
 
     return (
         <div className="relative w-full max-w-xs">
             {/* Visible suggestions above input (outside Command to avoid overflow clipping) */}
             {filtered.length > 0 && (
                 <div className="absolute bottom-full mb-2 left-0 right-0 z-20 rounded-lg shadow-md border border-slate-200 bg-white overflow-hidden">
-                    <div className="max-h-64 overflow-y-auto">
-                        {filtered.map((name) => {
+                    <div className="max-h-64 overflow-y-auto" ref={listRef}>
+                        {filtered.map((name, idx) => {
                             const slug = formatPokemonNameForSprite(name);
                             return (
                                 <button
                                     key={name}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-slate-100"
+                                    data-idx={idx}
+                                    className={`w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-slate-100 ${highlightIndex === idx ? 'bg-slate-100' : ''}`}
                                     onClick={() => handleSelect(name)}
+                                    onMouseEnter={() => setHighlightIndex(idx)}
                                 >
                                     <SpriteImage name={name} slug={slug} width={24} height={24} style={{ width: 24, height: 24 }} />
                                     <span className="ml-1 text-sm">{name}</span>
@@ -78,7 +104,30 @@ export default function PokemonSearch({ value, onSelect }: PokemonSearchProps) {
                         <CommandInput
                             placeholder="Search for a pokemon..."
                             value={query}
-                            onValueChange={setQuery}
+                            onValueChange={(val) => {
+                                setQuery(val);
+                                if (value) {
+                                    // User edited the search; clear current selection
+                                    onSelect(null);
+                                }
+                            }}
+                            onKeyDown={(e) => {
+                                if (filtered.length === 0) return;
+                                if (e.key === 'ArrowDown') {
+                                    e.preventDefault();
+                                    setHighlightIndex((prev) => (prev + 1) % filtered.length);
+                                } else if (e.key === 'ArrowUp') {
+                                    e.preventDefault();
+                                    setHighlightIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
+                                } else if (e.key === 'Enter') {
+                                    if (highlightIndex >= 0 && highlightIndex < filtered.length) {
+                                        e.preventDefault();
+                                        handleSelect(filtered[highlightIndex]);
+                                    }
+                                } else if (e.key === 'Escape') {
+                                    setHighlightIndex(-1);
+                                }
+                            }}
                         />
                         {(query || value) && (
                             <button

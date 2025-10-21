@@ -1,4 +1,5 @@
 import { pokemonPerBiome } from "./biome-data";
+import SpriteImage from "./components/sprite-image";
 
 function formatPokemonNameForSprite(name: string): string {
     let formattedName = name.toLowerCase();
@@ -89,11 +90,6 @@ export function BiomePokemonPopover({ biomeName }: { biomeName: string }) {
                         >
                             {pokemons.map((pokemon) => {
                                 const slug = formatPokemonNameForSprite(pokemon);
-                                const spriteUrl = slug === 'ursuluna-bloodmoon'
-                                    ? 'https://img.pokemondb.net/sprites/scarlet-violet/normal/ursaluna-bloodmoon.png'
-                                    : slug === 'darmanitan-galarian'
-                                        ? 'https://img.pokemondb.net/sprites/sword-shield/normal/darmanitan-galarian-standard.png'
-                                        : `https://img.pokemondb.net/sprites/scarlet-violet/icon/${slug}.png`;
                                 return (
                                     <div
                                         key={pokemon}
@@ -107,10 +103,12 @@ export function BiomePokemonPopover({ biomeName }: { biomeName: string }) {
                                         }}
                                         title={pokemon}
                                     >
-                                        <img
-                                            src={spriteUrl}
-                                            alt={pokemon}
-                                            style={{ width: '5rem', height: '5rem', imageRendering: 'auto' }}
+                                        <SpriteImage
+                                            name={pokemon}
+                                            slug={slug}
+                                            width={80}
+                                            height={80}
+                                            style={{ width: '5rem', height: '5rem' }}
                                         />
                                         <span
                                             style={{

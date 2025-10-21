@@ -1,7 +1,10 @@
+# uv run --with "Pillow" scripts/download_sprites.py
 import re
 import sys
 import urllib.request
 from pathlib import Path
+from PIL import Image  # type: ignore
+
 
 # Script to download Pokemon sprite icons locally under public/sprites/
 # - Parses biome-data.ts to discover all used Pokemon names
@@ -91,19 +94,31 @@ def main():
     success = 0
     skipped = 0
     for slug in slugs:
-        out = OUTPUT_DIR / f"{slug}.png"
-        if out.exists():
+        png_path = OUTPUT_DIR / f"{slug}.png"
+        webp_path = OUTPUT_DIR / f"{slug}.webp"
+
+        # If both formats exist, skip
+        if webp_path.exists():
+            if png_path.exists():
+                png_path.unlink()  # remove png if webp exists
             skipped += 1
             continue
         url = SPECIAL_URLS.get(slug, ICON_URL.format(slug=slug))
-        if download(url, out):
+        if download(url, png_path):
             success += 1
             print(f"OK  {slug}")
+            # Generate webp for smaller payloads when possible
+            try:
+                with Image.open(png_path) as im:
+                    im.save(webp_path, format="WEBP", method=6, quality=90)
+                png_path.unlink()  # remove png after webp creation
+            except Exception:
+                pass
         else:
             # remove partial file if created
-            if out.exists():
+            if png_path.exists():
                 try:
-                    out.unlink()
+                    png_path.unlink()
                 except Exception:
                     pass
             print(f"MISS {slug}")

@@ -24,7 +24,8 @@ export function SpriteImage({ name, slug, width = 80, height = 80, className, st
                 ? "https://img.pokemondb.net/sprites/sword-shield/normal/darmanitan-galarian-standard.png"
                 : `https://img.pokemondb.net/sprites/scarlet-violet/icon/${slug}.png`;
 
-    const src = useRemote ? remoteUrl : `/sprites/${slug}.png`;
+    // Try webp first (smaller), then png, else remote
+    const src = useRemote ? remoteUrl : `/sprites/${slug}.webp`;
 
     return (
         <Image
@@ -32,9 +33,17 @@ export function SpriteImage({ name, slug, width = 80, height = 80, className, st
             alt={name}
             width={width}
             height={height}
+            sizes="80px"
             className={className}
             style={{ imageRendering: "auto", ...style }}
-            onError={() => setUseRemote(true)}
+            onError={() => {
+                // If not using remote and failed to load webp, switch to remote
+                if (!useRemote) {
+                    setUseRemote(true);
+                }
+            }}
+            loading="lazy"
+            unoptimized
         />
     );
 }

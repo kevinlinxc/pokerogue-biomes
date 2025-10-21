@@ -12,7 +12,7 @@ import ReactFlow, {
   getBezierPath
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { adjacencyList, biomes } from './biome-data';
+import { adjacencyList, biomes, pokemonPerBiome } from './biome-data';
 import type { Route } from './biome-route-finder';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { BiomePokemonPopover } from './biome-popover';
@@ -20,6 +20,7 @@ import { BiomePokemonPopover } from './biome-popover';
 interface BiomeGraphProps {
   activePath: string[];
   activeProbs: number[];
+  selectedPokemon?: string | null;
 }
 
 const nodeSpacingX = 150;
@@ -861,7 +862,7 @@ const initialEdgeConnections = [
 ] as const;
 
 // Update BiomeNode to use the connections
-function BiomeNode({ data, selected }: { data: { label: string }; selected: boolean }) {
+function BiomeNode({ data, selected }: { data: { label: string; highlight?: boolean }; selected: boolean }) {
   const imagePath = `/biome-images/${data.label.toLowerCase().replace(" ", '_')}.png`;
   const connections = biomeHandles[data.label] || { sources: [], targets: [] };
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -890,6 +891,10 @@ function BiomeNode({ data, selected }: { data: { label: string }; selected: bool
           }}
           style={{ borderRadius: "0.2rem" }} //crying, sobbing
         >
+          {/* highlight overlay */}
+          {data.highlight && (
+            <div className="absolute inset-0 ring-4 ring-emerald-400 rounded-md pointer-events-none" />
+          )}
           {/* Render source handles */}
           {connections.sources.map(([direction, targetBiome]) => {
             const config = handlePositions[direction];
@@ -1007,7 +1012,7 @@ function EdgeTypeMenu({ position, onSelect, onClose }: EdgeTypeMenuProps) {
   );
 }
 
-export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
+export function BiomeGraph({ activePath, activeProbs, selectedPokemon }: BiomeGraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   // Initialize edges with the predefined connections
   const [edges, setEdges, onEdgesChange] = useEdgesState(
@@ -1153,18 +1158,23 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
     );
 
     setNodes((nds) =>
-      nds.map((node) => ({
-        ...node,
-        style: {
-          ...node.style,
-          borderColor: activePath.includes(node.id) ? '#3b82f6' : '#111111',
-          borderWidth: activePath.includes(node.id) ? '2px' : '1px',
-          background: 'black',
-          borderRadius: "0.3rem", // crying, sobbing
-        },
-      }))
+      nds.map((node) => {
+        const containsSelected = !!selectedPokemon && doesBiomeContainPokemon(node.id, selectedPokemon);
+        return ({
+          ...node,
+          data: { ...(node.data as any), highlight: containsSelected },
+          style: {
+            ...node.style,
+            borderColor: activePath.includes(node.id) ? '#3b82f6' : '#111111',
+            borderWidth: activePath.includes(node.id) ? '2px' : '1px',
+            background: 'black',
+            borderRadius: "0.3rem", // crying, sobbing
+            filter: selectedPokemon ? (containsSelected ? 'none' : 'grayscale(80%) opacity(60%)') : undefined,
+          },
+        });
+      })
     );
-  }, [activePath, edges.length]);
+  }, [activePath, edges.length, selectedPokemon]);
 
   // Add handler for removing last edge
   // const handleRemoveLastEdge = useCallback(() => {
@@ -1214,4 +1224,14 @@ export function BiomeGraph({ activePath, activeProbs }: BiomeGraphProps) {
       />
     </div>
   );
+}
+
+function doesBiomeContainPokemon(biomeName: string, pokemonName: string): boolean {
+  const entries = pokemonPerBiome[biomeName];
+  if (!entries) return false;
+  const lists = Object.values(entries);
+  for (const list of lists) {
+    if (Array.isArray(list) && list.includes(pokemonName)) return true;
+  }
+  return false;
 }

@@ -1,39 +1,6 @@
 import { pokemonPerBiome } from "./biome-data";
 import SpriteImage from "./components/sprite-image";
-
-function formatPokemonNameForSprite(name: string): string {
-    let formattedName = name.toLowerCase();
-
-    const regionalForms = ["alolan", "galarian", "hisuian", "paldean"];
-    for (const form of regionalForms) {
-        if (formattedName.startsWith(form + " ")) {
-            const parts = formattedName.split(" ");
-            formattedName = parts.slice(1).join("-") + `-${parts[0]}`;
-        }
-    }
-
-    // Handle special characters and forms
-    formattedName = formattedName
-        .replace(/ /g, "-")
-        .replace(/\./g, "")
-        .replace(/'/g, "")
-        .replace(/:/g, "")
-        .replace(/♀/g, "-f")
-        .replace(/♂/g, "-m");
-
-    // Specific manual overrides for edge cases
-    const nameOverrides: { [key: string]: string } = {
-        "bloodmoon-ursaluna": "ursaluna-bloodmoon",
-        "flabébé": "flabebe",
-        "eternal-floette": "floette-eternal",
-    };
-
-    if (nameOverrides[formattedName]) {
-        return nameOverrides[formattedName];
-    }
-
-    return formattedName;
-}
+import { formatPokemonNameForSprite } from "./lib/pokemon-names";
 
 
 export function BiomePokemonPopover({ biomeName }: { biomeName: string }) {

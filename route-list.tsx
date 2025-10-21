@@ -2,6 +2,7 @@ import { type Route } from './biome-route-finder';
 import { BiomeGraph } from './biome-graph';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import PokemonSearch from './components/pokemon-search';
 import { ClipboardDocumentIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
 
 function formatRouteForClipboard(route: Route, mode: 'route' | 'cycle', routeType: 'shortest' | 'highest-probability', source: string, destination?: string): string {
@@ -33,6 +34,7 @@ interface RouteListProps {
 export function RouteList({ routes, mode, routeType, sourceBiome, destinationBiome }: RouteListProps) {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
 
   const handleCopy = async (route: Route, index: number) => {
     const text = formatRouteForClipboard(route, mode, routeType, sourceBiome, destinationBiome);
@@ -58,8 +60,11 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
                 {mode === 'cycle' ? 'Select a biome to find cycles' : 'Select biomes to find routes'}
               </p>
             </div>
-            <div className="h-[60vh] lg:h-[800px]">
-              <BiomeGraph activePath={[]} activeProbs={[]} />
+            <div className="relative" style={{ height: 'calc(100vh - 100px)' }}>
+              <div className="absolute left-2 bottom-2 z-10">
+                <PokemonSearch value={selectedPokemon} onSelect={setSelectedPokemon} />
+              </div>
+              <BiomeGraph activePath={[]} activeProbs={[]} selectedPokemon={selectedPokemon} />
             </div>
           </motion.div>
         ) : (
@@ -152,10 +157,15 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
               ))}
             </div>
             {/* Graph visualization */}
-            <div className="h-[60vh] lg:h-[800px]">
+            <div className="relative" style={{ height: 'calc(100vh - 220px)' }}>
+              {/* Pokemon search positioned bottom-left (to the right of left sidebar) */}
+              <div className="absolute left-2 bottom-2 z-10">
+                <PokemonSearch value={selectedPokemon} onSelect={setSelectedPokemon} />
+              </div>
               <BiomeGraph
                 activePath={routes[selectedRouteIndex]?.path || []}
                 activeProbs={routes[selectedRouteIndex]?.probabilities || []}
+                selectedPokemon={selectedPokemon}
               />
             </div>
           </motion.div>

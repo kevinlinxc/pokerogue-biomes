@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import ReactFlow, {
   Node,
   Edge,
@@ -14,6 +14,8 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { adjacencyList, biomes } from './biome-data';
 import type { Route } from './biome-route-finder';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { BiomePokemonPopover } from './biome-popover';
 
 interface BiomeGraphProps {
   activePath: string[];
@@ -862,50 +864,97 @@ const initialEdgeConnections = [
 function BiomeNode({ data, selected }: { data: { label: string }; selected: boolean }) {
   const imagePath = `/biome-images/${data.label.toLowerCase().replace(" ", '_')}.png`;
   const connections = biomeHandles[data.label] || { sources: [], targets: [] };
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+  const [popoverSide, setPopoverSide] = useState<'top' | 'bottom'>('bottom');
+  const [popoverMaxHeight, setPopoverMaxHeight] = useState<string>('calc(100vh - 24px)');
 
   return (
-    <div className={`
+    <Popover>
+      <PopoverTrigger asChild>
+        <div className={`
         relative w-28 h-16 overflow-hidden
         ${selected ? 'ring-2 ring-blue-500' : 'ring-transparent'}
         transform-gpu
       `}
-      style={{ borderRadius: "0.2rem" }} //crying, sobbing
-    >
-      {/* Render source handles */}
-      {connections.sources.map(([direction, targetBiome]) => {
-        const config = handlePositions[direction];
-        return (
-          <SourceHandleWithValidation
-            id={`source-${direction}-${targetBiome}`}
-            position={config.position}
-            target={targetBiome}
-            style={{ ...config.style }}
-          />
-        );
-      })}
+          ref={triggerRef}
+          onMouseEnter={() => {
+            const rect = triggerRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            const padding = 24; // match collision padding
+            const availableTop = Math.max(0, rect.top - padding);
+            const availableBottom = Math.max(0, window.innerHeight - rect.bottom - padding);
+            const useTop = availableTop > availableBottom;
+            setPopoverSide(useTop ? 'top' : 'bottom');
+            const maxH = Math.max(160, useTop ? availableTop : availableBottom);
+            setPopoverMaxHeight(`${Math.floor(maxH)}px`);
+          }}
+          style={{ borderRadius: "0.2rem" }} //crying, sobbing
+        >
+          {/* Render source handles */}
+          {connections.sources.map(([direction, targetBiome]) => {
+            const config = handlePositions[direction];
+            return (
+              <SourceHandleWithValidation
+                key={`source-${direction}-${targetBiome}`}
+                id={`source-${direction}-${targetBiome}`}
+                position={config.position}
+                target={targetBiome}
+                style={{ ...config.style }}
+              />
+            );
+          })}
 
-      {/* Render target handles */}
-      {connections.targets.map(([direction, sourceBiome]) => {
-        const config = handlePositions[direction];
-        return (
-          <TargetHandleWithValidation
-            id={`target-${direction}-${sourceBiome}`}
-            position={config.position}
-            source={sourceBiome}
-            style={{ ...config.style, background: '#94a3b8', width: '10px', height: '10px' }}
-          />
-        );
-      })}
+          {/* Render target handles */}
+          {connections.targets.map(([direction, sourceBiome]) => {
+            const config = handlePositions[direction];
+            return (
+              <TargetHandleWithValidation
+                key={`target-${direction}-${sourceBiome}`}
+                id={`target-${direction}-${sourceBiome}`}
+                position={config.position}
+                source={sourceBiome}
+                style={{ ...config.style, background: '#94a3b8', width: '10px', height: '10px' }}
+              />
+            );
+          })}
 
-      <div className="absolute inset-0 overflow-hidden">
-        <img
-          src={imagePath}
-          alt={data.label}
-          className="w-full h-full object-cover"
-          draggable={false}
-        />
-      </div>
-    </div>
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              src={imagePath}
+              alt={data.label}
+              className="w-full h-full object-cover"
+              draggable={false}
+            />
+          </div>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent
+        side={popoverSide}
+        sideOffset={8}
+        align="center"
+        avoidCollisions
+        collisionPadding={24}
+        className="w-auto"
+        style={{
+          width: 'fit-content',
+          maxWidth: 'calc(100vw - 24px)',
+          maxHeight: popoverMaxHeight,
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+          padding: '8px',
+        }}
+        role="dialog"
+        tabIndex={0}
+        onPointerDown={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        onWheel={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <BiomePokemonPopover biomeName={data.label} />
+      </PopoverContent>
+    </Popover>
   );
 }
 

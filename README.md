@@ -6,7 +6,12 @@ Hosted at [https://pokerogue-biomes.vercel.app/](https://pokerogue-biomes.vercel
 
 A simple map/pathfinder web-app for [https://pokerogue.net/](https://pokerogue.net/) biomes
 
-Made with [Next.js](https://nextjs.org) 
+Features:
+- Click on biomes to see what pokemon inhabit it
+- Find shortest route from one biome to another
+- Find highest probability route from one biome to another
+- Find shortest cycle(s) that visit the same biome repeatedly
+
 
 ## To run locally
 

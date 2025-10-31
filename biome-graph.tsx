@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ReactFlow, {
   Node,
   Edge,
@@ -1020,18 +1020,46 @@ export function BiomeGraph({ activePath, activeProbs, selectedPokemon }: BiomeGr
       ...conn,
       animated: false,
       style: {
-        stroke: conn.label.includes('50%') ? '#3b82f6' :
-          conn.label.includes('33%') ? '#eab308' : '#94a3b8',
-        opacity: 0.3
+        stroke: conn.label.includes('50%') ? '#60a5fa' : // brighter blue
+          conn.label.includes('33%') ? '#facc15' : '#e2e8f0', // brighter neutral
+        opacity: 0.9
       },
       labelStyle: {
-        fill: conn.label.includes('50%') ? '#3b82f6' :
-          conn.label.includes('33%') ? '#eab308' : '#000000',
+        fill: conn.label.includes('50%') ? '#60a5fa' :
+          conn.label.includes('33%') ? '#facc15' : '#e5e7eb',
         fontSize: 15,
+        fontWeight: 600,
       },
+      labelShowBg: true,
+      labelBgStyle: { fill: '#000000', stroke: 'transparent' },
+      labelBgBorderRadius: 4,
+      labelBgPadding: [2, 4] as any,
       markerEnd: { type: MarkerType.ArrowClosed },
     }))
   );
+
+  // Track theme to sync canvas and label backgrounds
+  const [isDark, setIsDark] = useState<boolean>(false);
+  useEffect(() => {
+    const html = document.documentElement;
+    const update = () => setIsDark(html.classList.contains('dark'));
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  // When theme changes, match label bg to canvas color
+  useEffect(() => {
+    setEdges((eds) => eds.map((e) => ({
+      ...e,
+      labelBgStyle: {
+        ...(e as any).labelBgStyle,
+        fill: isDark ? '#000000' : 'rgba(248,250,252,0.6)',
+        stroke: 'transparent'
+      }
+    })));
+  }, [isDark, setEdges]);
 
   const [menu, setMenu] = useState<{ position: { x: number; y: number }; connection: any } | null>(null);
 
@@ -1134,9 +1162,9 @@ export function BiomeGraph({ activePath, activeProbs, selectedPokemon }: BiomeGr
         );
 
         // Get original color based on probability label
-        const originalColor = typeof edge.label === 'string' && edge.label.includes('50%') ? '#3b82f6' :
-          typeof edge.label === 'string' && edge.label.includes('33%') ? '#eab308' :
-            '#363a45';
+        const originalColor = typeof edge.label === 'string' && edge.label.includes('50%') ? '#60a5fa' :
+          typeof edge.label === 'string' && edge.label.includes('33%') ? '#facc15' :
+            (isDark ? '#e2e8f0' : '#64748b');
 
         // if edge has label of 100%, delete it
         if (typeof edge.label === 'string' && edge.label.includes('100%')) {
@@ -1174,7 +1202,7 @@ export function BiomeGraph({ activePath, activeProbs, selectedPokemon }: BiomeGr
         });
       })
     );
-  }, [activePath, edges.length, selectedPokemon]);
+  }, [activePath, edges.length, selectedPokemon, isDark]);
 
   // Add handler for removing last edge
   // const handleRemoveLastEdge = useCallback(() => {
@@ -1183,7 +1211,7 @@ export function BiomeGraph({ activePath, activeProbs, selectedPokemon }: BiomeGr
 
   // Update the buttons section in the return statement
   return (
-    <div className="h-full bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200">
+  <div className="h-full bg-white/50 dark:bg-black/60 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
       {/* {menu && (
         <EdgeTypeMenu
           position={menu.position}
@@ -1214,7 +1242,7 @@ export function BiomeGraph({ activePath, activeProbs, selectedPokemon }: BiomeGr
         // onConnect={onConnect}
         nodeTypes={nodeTypes}
         fitView
-        className="bg-slate-50/50"
+        className="bg-slate-50/50 dark:bg-black"
         minZoom={0.4}
         maxZoom={1}
         defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}

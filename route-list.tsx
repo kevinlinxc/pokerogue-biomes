@@ -86,9 +86,9 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.1, ease: 'easeOut' }}
                   onClick={() => setSelectedRouteIndex(routeIndex)}
-                  className={`relative bg-white/50 p-4 lg:p-6 rounded-xl shadow-sm cursor-pointer
-                    transition-all duration-200 hover:bg-white/60 text-sm lg:text-base group
-                    ${selectedRouteIndex === routeIndex ? 'ring-2 ring-blue-500 bg-white/70' : ''}`}
+                  className={`relative bg-white/50 dark:bg-slate-900/50 p-4 lg:p-6 rounded-xl shadow-sm cursor-pointer
+                    transition-all duration-200 hover:bg-white/60 dark:hover:bg-slate-900/60 text-sm lg:text-base group
+                    ${selectedRouteIndex === routeIndex ? 'ring-2 ring-blue-500 dark:ring-blue-400 bg-white/70 dark:bg-slate-900/70' : ''}`}
                 >
                   {/* Add copy button */}
                   <button
@@ -99,7 +99,7 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
                     className="absolute right-2 top-2 p-2 rounded-lg 
                              transition-all duration-100 
                              opacity-80 group-hover:opacity-100
-                             hover:bg-slate-200/50"
+                             hover:bg-slate-200/50 dark:hover:bg-slate-700/50"
                   >
                     <AnimatePresence mode="wait">
                       {copiedIndex === routeIndex ? (
@@ -118,7 +118,7 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
                           exit={{ scale: 0.5, opacity: 0 }}
                           key="copy"
                         >
-                          <ClipboardDocumentIcon className="w-5 h-5 text-slate-600" />
+                          <ClipboardDocumentIcon className="w-5 h-5 text-slate-600 dark:text-slate-300" />
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -128,18 +128,18 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
                     {route.path.map((biome, nodeIndex) => (
                       <div key={nodeIndex} className="flex items-center">
                         {/* Biome node */}
-                        <div className="bg-white shadow-md px-4 py-2 rounded-lg border border-slate-200 transition-colors hover:bg-slate-50">
-                          <span className="text-slate-700 font-medium whitespace-nowrap">{biome}</span>
+                        <div className="bg-white dark:bg-slate-800 shadow-md px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700">
+                          <span className="text-slate-700 dark:text-slate-100 font-medium whitespace-nowrap">{biome}</span>
                         </div>
 
                         {/* Arrow and probability */}
                         {nodeIndex < route.path.length - 1 && (
                           <div className="flex items-center mx-2">
                             <div className="flex items-center gap-1">
-                              <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <svg className="w-6 h-6 text-slate-400 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                               </svg>
-                              <span className="text-sm text-slate-500 whitespace-nowrap">
+                              <span className="text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
                                 {(route.probabilities[nodeIndex] * 100).toFixed(0)}%
                               </span>
                             </div>
@@ -150,8 +150,8 @@ export function RouteList({ routes, mode, routeType, sourceBiome, destinationBio
                   </div>
 
                   {/* Route number */}
-                  <div className="absolute -left-3 -top-3 w-8 h-8 bg-white shadow-md rounded-full flex items-center justify-center border border-slate-200">
-                    <span className="text-slate-600 text-sm font-medium">{routeIndex + 1}</span>
+                  <div className="absolute -left-3 -top-3 w-8 h-8 bg-white dark:bg-slate-800 shadow-md rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-600">
+                    <span className="text-slate-600 dark:text-slate-300 text-sm font-medium">{routeIndex + 1}</span>
                   </div>
                 </motion.div>
               ))}

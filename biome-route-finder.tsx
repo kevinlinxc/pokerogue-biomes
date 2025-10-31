@@ -191,6 +191,9 @@ export default function BiomeRouteFinder() {
     }
     try {
       localStorage.setItem('theme', next);
+      // Persist cookie so SSR can render with correct theme immediately (prevents flash)
+      const oneYear = 60 * 60 * 24 * 365;
+      document.cookie = `theme=${next}; Max-Age=${oneYear}; Path=/; SameSite=Lax`;
     } catch (_) {
       // no-op
     }

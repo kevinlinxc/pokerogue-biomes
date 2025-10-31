@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Analytics } from "@vercel/analytics/react"
+import Script from 'next/script'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'PokéRogue Path Finder',
@@ -34,10 +36,36 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const themeCookie = cookies().get('theme')?.value
+  const isDarkFromCookie = themeCookie === 'dark'
   return (
-    <html lang="en">
-      <body>{children}</body>
-      <Analytics />
+    <html
+      lang="en"
+      className={isDarkFromCookie ? 'dark' : ''}
+      style={{ background: isDarkFromCookie ? '#0b0b0b' : '#ffffff', colorScheme: isDarkFromCookie ? 'dark' : 'light' }}
+    >
+      <head>
+        {/* Prevent theme flash: set dark class before hydration based on localStorage or system */}
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`
+            (function(){try{
+              var m=document.cookie.split('; ').find(function(x){return x.indexOf('theme=')===0});
+              var cookieTheme=m?decodeURIComponent(m.split('=')[1]):null;
+              var stored=localStorage.getItem('theme');
+              var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+              var useDark=cookieTheme?cookieTheme==='dark':(stored?stored==='dark':prefersDark);
+              var r=document.documentElement;
+              r.classList.toggle('dark',useDark);
+              r.style.colorScheme=useDark?'dark':'light';
+              r.style.backgroundColor=useDark?'#0b0b0b':'#ffffff';
+            }catch(e){}})();
+          `}
+        </Script>
+      </head>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }

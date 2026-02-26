@@ -21,6 +21,16 @@ const nextConfig = {
                     },
                 ],
             },
+            {
+                // Cache biome node images aggressively
+                source: '/biome-images/:path*',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, max-age=31536000, immutable', // 1 year
+                    },
+                ],
+            },
         ];
     },
 };

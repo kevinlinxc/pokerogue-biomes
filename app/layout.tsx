@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Analytics } from "@vercel/analytics/react"
 import Script from 'next/script'
-import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'PokéRogue Path Finder',
@@ -36,13 +35,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const themeCookie = cookies().get('theme')?.value
-  const isDarkFromCookie = themeCookie === 'dark'
   return (
     <html
       lang="en"
-      className={isDarkFromCookie ? 'dark' : ''}
-      style={{ background: isDarkFromCookie ? '#0b0b0b' : '#ffffff', colorScheme: isDarkFromCookie ? 'dark' : 'light' }}
+      suppressHydrationWarning
+      style={{ background: '#ffffff', colorScheme: 'light' }}
     >
       <head>
         {/* Prevent theme flash: set dark class before hydration based on localStorage or system */}

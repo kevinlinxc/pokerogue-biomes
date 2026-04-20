@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Command, CommandGroup, CommandInput, CommandList } from "./ui/command";
-import SpriteImage from "./sprite-image";
-import { formatPokemonNameForSprite, normalizePokemonName } from "@/lib/pokemon-names";
+import { normalizePokemonName } from "@/lib/pokemon-names";
 import { pokemonPerBiome } from "@/biome-data";
 
 type PokemonSearchProps = {
@@ -79,7 +78,6 @@ export default function PokemonSearch({ value, onSelect }: PokemonSearchProps) {
                 <div className="absolute bottom-full mb-2 left-0 right-0 z-20 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden">
                     <div className="max-h-64 overflow-y-auto" ref={listRef}>
                         {filtered.map((name, idx) => {
-                            const slug = formatPokemonNameForSprite(name);
                             return (
                                 <button
                                     key={name}
@@ -88,8 +86,7 @@ export default function PokemonSearch({ value, onSelect }: PokemonSearchProps) {
                                     onClick={() => handleSelect(name)}
                                     onMouseEnter={() => setHighlightIndex(idx)}
                                 >
-                                    <SpriteImage name={name} slug={slug} width={24} height={24} style={{ width: 24, height: 24 }} />
-                                    <span className="ml-1 text-sm">{name}</span>
+                                    <span className="text-sm">{name}</span>
                                 </button>
                             );
                         })}

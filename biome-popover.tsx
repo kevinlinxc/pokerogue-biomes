@@ -1,6 +1,4 @@
 import { pokemonPerBiome } from "./biome-data";
-import SpriteImage from "./components/sprite-image";
-import { formatPokemonNameForSprite } from "./lib/pokemon-names";
 
 
 export function BiomePokemonPopover({ biomeName }: { biomeName: string }) {
@@ -49,38 +47,25 @@ export function BiomePokemonPopover({ biomeName }: { biomeName: string }) {
                         <div
                             style={{
                                 display: 'grid',
-                                gridTemplateColumns: 'repeat(8, minmax(20px, 1fr))',
-                                gap: '8px 8px',
-                                alignItems: 'center',
-                                justifyItems: 'center',
+                                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                                gap: '6px 10px',
+                                alignItems: 'start',
                             }}
                         >
                             {pokemons.map((pokemon) => {
-                                const slug = formatPokemonNameForSprite(pokemon);
                                 return (
                                     <div
                                         key={pokemon}
                                         style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            textAlign: 'center',
-                                            gap: '2px',
+                                            textAlign: 'left',
                                             width: '100%',
                                         }}
                                         title={pokemon}
                                     >
-                                        <SpriteImage
-                                            name={pokemon}
-                                            slug={slug}
-                                            width={80}
-                                            height={80}
-                                            style={{ width: '5rem', height: '5rem' }}
-                                        />
                                         <span
                                             style={{
                                                 fontSize: '0.8rem',
-                                                lineHeight: 1.1,
+                                                lineHeight: 1.25,
                                                 maxWidth: '100%',
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis',
